@@ -5,6 +5,14 @@ Models and plots loan repayment timelines. Compares multi-loan repayment algorit
 Work in progress! Currently moving plotting functions to loan_plot.py class for clearer modularization,
 as well as updating view_controller.py to allow user to interact with PriorityQueue objects in the GUI.
 
+## Getting Started 
+
+Install dependencies and run the server in development mode:
+```py
+pip install -r requirements.txt
+flask --app router run --debug
+```
+
 Includes:
 
 - Model-View-Controller structure for main app.
