@@ -1,9 +1,14 @@
-export default function Input({ label, name, isRequired, type="text" }) {
+export default function Input({ label, name, isRequired, onChange, type="text", inputMode=false }) {
   return (
-    <div class="col m-2">
-      <label for={name} className="form-label"> {label}
-        <input id={name} name={name} type={type} className="form-control" required={isRequired} />
-      </label>
-    </div>
+    <label for={name} className="form-label"> {label}
+      <input
+        id={name}
+        name={name}
+        // type={type}
+        inputMode={inputMode}
+        className="form-control"
+        required={isRequired}
+        onChange={onChange} />
+    </label>
   );
 }
