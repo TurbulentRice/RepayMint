@@ -1,7 +1,12 @@
+html {
+  font-size: 14px;
+}
+
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
   min-height: 100vh;
+}
+
+#app {
+  margin: 1rem;
 }
