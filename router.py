@@ -11,7 +11,7 @@ app.secret_key = os.environ.get('APP_KEY')
 # This is just to store Loans in session until we connect db
 @app.before_request
 def make_session_permanent():
-    session.permanent = True
+  session.permanent = True
 
 @app.route("/")
 def main():
