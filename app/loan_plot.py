@@ -1,7 +1,8 @@
 import numpy as np
 from matplotlib import pyplot as plt
 from app.loan import Loan
-from app.priority_queue import PriorityQueue, MethodCompare
+from app.priority_queue import PriorityQueue
+from app.method_compare import MethodCompare
 
 # View / plotting module
 # Plots any loan_obj type (Loan, PriorityQueue, list of PriorityQueues)

@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
-from db_connection import LoanDBConnector
 from tkinter import *
 from tkinter import messagebox
+from db_connection import LoanDBConnector
 from app.loan import StandardLoan
 
 #   GUI View/Controller Class

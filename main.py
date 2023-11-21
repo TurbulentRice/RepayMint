@@ -54,10 +54,9 @@ if __name__ == "__main__":
 	best = my_Queue.find_best(goal='interest', minimum='int')
 
 	# Display all completed q ordered by "best" method
-	print(f'Best:')
-	best.display_info(histories=True)
-
-	print(Loan.INSTANCE_COUNTER)
+	# print(f'Best:')
+	# best.display_info(histories=True)
+	# print(Loan.INSTANCE_COUNTER)
 
 	#JSON Save feature
 	c = input("Would you like to save results? (y/n): ")

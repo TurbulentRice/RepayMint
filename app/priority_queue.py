@@ -2,6 +2,7 @@
 #   Receives list of StandardLoans and a monthly budget
 
 from app.loan import Loan
+from app.method_compare import MethodCompare
 
 #########################################
 #   LOAN PRIORITY QUEUE
