@@ -1,6 +1,6 @@
 # RepayMint
 
-RepayMint is a lightweight web application for modelling loan repayment timelines and comparing repayment strategies. It is based on Python data structures I wrote while paying off my student loans, to help visualize the many "What if's?":
+RepayMint is a lightweight web application for modeling loan repayment timelines and comparing repayment strategies. It is based on Python data structures I wrote while paying off my student loans, to help visualize the many "What if's?":
 
 - What if I increase/decrease my monthly payment?
 - What if I target payments to a single loan at a time?
@@ -29,13 +29,15 @@ First, set up the back-end:
 # Make sure the local Python executable is v3.9+
 python -V
 # Create virtual environment at project root
-python -m venv
+python -m venv venv
 # Activate venv
 source venv/bin/activate
 # Install dependencies
 pip install -r requirements.txt
 # Run the Flask server in debug mode
 flask --app router run --debug
+# OR
+./run.sh
 ```
 
 Next, set up the front-end:
