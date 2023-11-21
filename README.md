@@ -61,6 +61,14 @@ Using unittest standard library.
 python -m unittest discover tests
 ```
 
+## Theme
+
+Mint:     #31C48D
+
+Forest:   #096A2E
+
+Gray:     #ADBFB8
+
 # Loan Repayment Algorithms Overview
 
 ## Ordered Algorithms
