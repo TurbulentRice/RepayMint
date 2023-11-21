@@ -10,8 +10,8 @@ const unpackLoanData = (loanData) => ({
 });
 
 export async function addUserLoan(body) {
-  const { loanData } = await axios.post('/api/loan/new', body);
-  return unpackLoanData(loanData);
+  const { data } = await axios.post('/api/loan/new', body);
+  return unpackLoanData(data);
 }
 
 export async function getUserLoans() {
