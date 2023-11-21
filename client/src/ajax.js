@@ -1,5 +1,10 @@
 import axios from "axios";
 
+/**
+ * Interface Loan
+ * @param {Object} loanData JSON representing Loan object
+ * @returns {Object}
+ */
 const unpackLoanData = (loanData) => ({
   interestRate: loanData.int_rate,
   paymentAmount: loanData.payment_amt,

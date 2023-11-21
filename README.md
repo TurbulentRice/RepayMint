@@ -40,6 +40,7 @@ flask --app router run --debug
 
 Next, set up the front-end:
 ```sh
+cd client/
 # Install the Node version from .nvmrc if missing
 nvm install
 # Or, if correct Node version is already installed
@@ -50,6 +51,14 @@ npm install
 npm run build
 # Run the dev server (proxies API requests to Flask server)
 npm run dev
+```
+
+## Testing
+
+Using unittest standard library.
+
+```py
+python -m unittest discover tests
 ```
 
 # Loan Repayment Algorithms Overview

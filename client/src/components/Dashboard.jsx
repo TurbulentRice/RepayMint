@@ -31,10 +31,11 @@ export default function Dashboard() {
     addLoan(newLoan);
   };
 
-  // Get loans from session
-  useEffect(async () => {
-    const fetchedLoans = await getUserLoans();
-    setLoans(fetchedLoans);
+  useEffect(() => {
+    (async () => {
+      const fetchedLoans = await getUserLoans();
+      setLoans(fetchedLoans);
+    })()
   }, []);
   
   console.log('LOANS IN STATE:', loans);
@@ -43,9 +44,12 @@ export default function Dashboard() {
       <div class="col-4">
         <LoanForm submit={submit} setValue={setValue} />
         <LoanIndex loans={loans} selectedLoanIndex={selectedLoanIndex} selectLoan={selectLoan} removeLoan={removeLoan}/>
+        <a href="/logout" class="mb-0">Logout</a>
       </div>
-      <div class="col text-center">
+      <div class="col-6 text-center">
         <LoanView loan={loans[selectedLoanIndex]} />
+      </div>
+      <div class="col">
       </div>
     </div>
   );
