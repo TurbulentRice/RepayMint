@@ -61,7 +61,6 @@ class PriorityQueueTest(unittest.TestCase):
 
   def test_snowball(self):
     snowball = self.priority_queue.snowball()
-    snowball = self.priority_queue.snowball()
     snowball.display_info()
     self.assertEqual(snowball.get_duration(), StandardLoan.Dec(17))
     self.assertEqual(snowball.get_num_payments(), StandardLoan.Dec(38))
