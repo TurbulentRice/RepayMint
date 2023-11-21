@@ -1,9 +1,7 @@
 #   Data structures for ordering Loans and testing repayment methods
 #   Receives list of StandardLoans and a monthly budget
 
-from app.loan import *
-
-
+from app.loan import Loan
 
 #########################################
 #   LOAN PRIORITY QUEUE
@@ -304,33 +302,3 @@ class PriorityQueue:
     #             json.dump(l.Payment_History, f, default=dec_def, indent=4)
 
     #     print("Saved.")
-
-
-######################################################
-#   METHOD COMPARE OBJECT
-#   Container for multiple PriorityQueues
-######################################################
-class MethodCompare:
-    def __init__(self, q_list):
-
-        # List of PriorityQueues
-        self.grid = q_list
-
-    def top(self):
-        return self.grid[0]
-
-    def order_by(self, goal):
-        if goal == 'interest':
-            self.grid.sort(key=lambda q: q.get_interest_paid())
-        elif goal == 'time':
-            self.grid.sort(key=lambda q: q.get_duration())
-        elif goal == 'num_p':
-            self.grid.sort(key=lambda q: q.get_num_payments())
-
-    def all_complete(self):
-        return all([q.is_complete() for q in self.grid])
-
-    def display_info(self, **kwargs):
-        for q in self.grid:
-            q.display_info(**kwargs)
-

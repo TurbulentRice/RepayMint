@@ -7,9 +7,10 @@
 # View:		loan_plot
 # Control:	tk UI
 
-from view_controller import *
-from loan_plot import *
-from priority_queue import PriorityQueue
+from app.view_controller import MainWindow
+from app.loan_plot import LoanPlot
+from app.loan import Loan, StandardLoan
+from app.priority_queue import PriorityQueue
 import random
 
 ############
@@ -56,7 +57,6 @@ if __name__ == "__main__":
 	print(f'Best:')
 	best.display_info(histories=True)
 
-
 	print(Loan.INSTANCE_COUNTER)
 
 	#JSON Save feature
@@ -71,11 +71,10 @@ if __name__ == "__main__":
 	view = LoanPlot(best)
 	view.plot_history()
 
-
 	# GUI/database implemenation
 	def launch_GUI():
 		#   Amortization Calculator Main Loop
 		LoanApp = MainWindow()
-		LoanApp.start()
+		LoanApp.start(StandardLoan(7024.12, 3.75, term=120))
 
-	#launch_GUI()
+	launch_GUI()

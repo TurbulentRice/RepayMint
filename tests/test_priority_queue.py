@@ -1,6 +1,7 @@
 import unittest
 import random
-from app import StandardLoan, PriorityQueue, MethodCompare
+from app.loan import StandardLoan
+from app.priority_queue import PriorityQueue
 
 class PriorityQueueTest(unittest.TestCase):
   def setUp(self):
