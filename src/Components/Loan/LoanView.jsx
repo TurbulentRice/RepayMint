@@ -14,7 +14,7 @@ export default function LoanView({ loan }) {
   return (
     <div>
       <div class="row">
-        {Object.entries(loan).map(([key, value], index) => key !== "payment_history" ? <p key={index}>{key}: {value}</p> : null)}
+        {Object.entries(loan).map(([key, value], index) => key !== "paymentHistory" ? <p key={index}>{key}: {value}</p> : null)}
       </div>
 
       {/* <LinePlot plotData={makeLoanTrace(loanToDisplay)}/>   */}

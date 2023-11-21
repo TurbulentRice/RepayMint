@@ -1,20 +1,23 @@
 import { useState, useEffect } from 'preact/hooks'
-import axios from 'axios';
-import Input from './Input';
-import LoanView from './LoanView';
-import LoanIndex from './LoanIndex';
+import LoanView from './Loan/LoanView';
+import LoanIndex from './Loan/LoanIndex';
+import LoanForm from './Loan/LoanForm';
+import { addUserLoan, getUserLoans } from '../ajax';
 
 export default function Dashboard() {
   const [loans, setLoans] = useState([]);
-  const [selectedLoan, setSelectedLoan] = useState(0);
+  const [selectedLoanIndex, setSelectedLoanIndex] = useState(0);
   const [values, setValues] = useState({});
-
-  const findLoanIndex = (loan) => loans.findIndex(loan);
   
   const addLoan = (newLoan) => setLoans([...loans, newLoan]);
-  const removeLoan = (oldLoanIndex) => setLoans(loans.filter((loan, index) => index !== oldLoanIndex));
-
-  const selectLoan = (loanToSelect) => setSelectedLoan(loans.findIndex((loan) => loan === loanToSelect));
+  const removeLoan = (loanIndex) => {
+    // Decrement selectedLoanIndex if that's the one being removed
+    if (selectedLoanIndex && (loanIndex <= selectedLoanIndex)) {
+      setSelectedLoanIndex(selectedLoanIndex - 1);
+    }
+    setLoans(loans.filter((loan, index) => index !== loanIndex));
+  };
+  const selectLoan = (loanIndex) => setSelectedLoanIndex(loanIndex);
 
   const setValue = (e) => {
     const key = e.target.name || e.target.id;
@@ -24,54 +27,25 @@ export default function Dashboard() {
   
   const submit = async (e) => {
     e.preventDefault();
-    const { data } = await axios.post('/api/loan/new', values);
-    addLoan(data);
+    const newLoan = await addUserLoan(values);
+    addLoan(newLoan);
   };
 
   // Get loans from session
   useEffect(async () => {
-    const { data } = await axios.get('/api/loans');
-    setLoans([...data])
+    const fetchedLoans = await getUserLoans();
+    setLoans(fetchedLoans);
   }, []);
   
   console.log('LOANS IN STATE:', loans);
   return (
     <div class="row">
       <div class="col-4">
-        <form method="POST" onSubmit={submit} class="mb-2">
-          <Input
-            label="Title"
-            name="title"
-            isRequired={true}
-            onChange={setValue} />
-          <Input
-            label="Starting Balance"
-            name="startBalance"
-            isRequired={true}
-            onChange={setValue}
-            type="number"
-            inputMode="decimal" />
-          <Input
-            label="Interest Rate"
-            name="interestRate"
-            isRequired={true}
-            onChange={setValue}
-            type="number"
-            inputMode="decimal" />
-          <Input
-            label="Payment Amount"
-            name="paymentAmt"
-            isRequired={true}
-            onChange={setValue}
-            type="number"
-            inputMode="decimal" />
-
-          <button class="form-control btn btn-primary">Submit</button>
-        </form>
-        <LoanIndex loans={loans} selectLoan={selectLoan} removeLoan={removeLoan}/>
+        <LoanForm submit={submit} setValue={setValue} />
+        <LoanIndex loans={loans} selectedLoanIndex={selectedLoanIndex} selectLoan={selectLoan} removeLoan={removeLoan}/>
       </div>
       <div class="col text-center">
-        <LoanView loan={loans[selectedLoan] ?? null} />
+        <LoanView loan={loans[selectedLoanIndex]} />
       </div>
     </div>
   );
