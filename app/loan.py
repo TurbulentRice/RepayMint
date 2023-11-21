@@ -323,4 +323,3 @@ class StandardLoan(Loan):
 
         #   Otherwise, call recursive inner,
         return inner(s_bal)
-

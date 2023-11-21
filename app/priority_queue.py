@@ -1,7 +1,7 @@
 #   Data structures for ordering Loans and testing repayment methods
 #   Receives list of StandardLoans and a monthly budget
 
-from loan import *
+from app.loan import *
 
 
 
@@ -286,24 +286,24 @@ class PriorityQueue:
             self.line()
 
     # Serialize histories to JSON, if complete      
-    def save_results(self):
-        def dec_def(e):
-            if isinstance(e, Decimal):
-                return str(e)
-            raise TypeError
+    # def save_results(self):
+    #     def dec_def(e):
+    #         if isinstance(e, Decimal):
+    #             return str(e)
+    #         raise TypeError
 
-        if not self.is_complete():
-            print("Loans are not paid off...")
-            return
+    #     if not self.is_complete():
+    #         print("Loans are not paid off...")
+    #         return
 
-        import json
-        with open(f'{self.title}_Histories.txt', 'w') as f:
-            print("Saving...")
-            for l in self.Q:
-                json.dump({l.title: l.get_payment_info()}, f)
-                json.dump(l.Payment_History, f, default=dec_def, indent=4)
+    #     import json
+    #     with open(f'{self.title}_Histories.txt', 'w') as f:
+    #         print("Saving...")
+    #         for l in self.Q:
+    #             json.dump({l.title: l.get_payment_info()}, f)
+    #             json.dump(l.Payment_History, f, default=dec_def, indent=4)
 
-        print("Saved.")
+    #     print("Saved.")
 
 
 ######################################################
@@ -315,6 +315,9 @@ class MethodCompare:
 
         # List of PriorityQueues
         self.grid = q_list
+
+    def top(self):
+        return self.grid[0]
 
     def order_by(self, goal):
         if goal == 'interest':

@@ -331,6 +331,3 @@ class MainWindow(Frame):
         else:
             messagebox.showinfo("Display Error",
                                 "Nothing to display")
-
-    
-
