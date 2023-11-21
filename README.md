@@ -11,7 +11,6 @@ This helped dispell some of the mystery, but to be useful, these tools also had 
 - What is the fastest way to pay off all my outstanding loans?
 - What is the cheapest way (least interest paid)?
 
-
 ![Loan Timeline Example](./examples/example1.png)
 
 ## Requirements
