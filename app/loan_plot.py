@@ -1,12 +1,10 @@
-# View / plotting module
-
-from loan import *
-from priority_queue import *
-
 import numpy as np
-import matplotlib as mpl
 from matplotlib import pyplot as plt
+from app.loan import Loan
+from app.priority_queue import PriorityQueue
+from app.method_compare import MethodCompare
 
+# View / plotting module
 # Plots any loan_obj type (Loan, PriorityQueue, list of PriorityQueues)
 class LoanPlot:
 	def __init__(self, obj):

@@ -11,7 +11,6 @@ This helped dispell some of the mystery, but to be useful, these tools also had 
 - What is the fastest way to pay off all my outstanding loans?
 - What is the cheapest way (least interest paid)?
 
-
 ![Loan Timeline Example](./examples/example1.png)
 
 ## Requirements
@@ -61,6 +60,14 @@ Using unittest standard library.
 ```py
 python -m unittest discover tests
 ```
+
+## Theme
+
+Mint:     #31C48D
+
+Forest:   #096A2E
+
+Gray:     #ADBFB8
 
 # Loan Repayment Algorithms Overview
 

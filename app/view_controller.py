@@ -1,7 +1,8 @@
 import matplotlib.pyplot as plt
-from db_connection import *
 from tkinter import *
 from tkinter import messagebox
+from db_connection import LoanDBConnector
+from app.loan import StandardLoan
 
 #   GUI View/Controller Class
 #   Windows, graphs, infoboxes, database scroller
@@ -16,7 +17,8 @@ class MainWindow(Frame):
         self.my_connection = connection
         self.init_window()
 
-    def start(self):
+    def start(self, loan: StandardLoan = None):
+        if loan is not None: self.my_loan = loan
         self.mainloop()
 
     ####################
@@ -25,6 +27,7 @@ class MainWindow(Frame):
     def init_window(self):
         self.master.geometry("600x400")
         self.master.title("Loan Amortization Calculator")
+        # self.master.configure(bg='white')
 
         self.create_labels()
         self.create_entries()

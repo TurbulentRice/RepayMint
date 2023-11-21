@@ -1,5 +1,3 @@
-import axios from "axios";
-
 /**
  * Interface Loan
  * @param {Object} loanData JSON representing Loan object
@@ -15,11 +13,17 @@ const unpackLoanData = (loanData) => ({
 });
 
 export async function addUserLoan(body) {
-  const { data } = await axios.post('/api/loan/new', body);
+  const res = await fetch('/api/loan/new', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(body)
+  });
+  const data = await res.json();
   return unpackLoanData(data);
 }
 
 export async function getUserLoans() {
-  const { data } = await axios.get('/api/loans');
+  const res = await fetch('/api/loans');
+  const data = await res.json();
   return data.map((loanData) => unpackLoanData(loanData));
 }

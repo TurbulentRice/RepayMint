@@ -1,6 +1,7 @@
 import unittest
 import random
-from app import StandardLoan, PriorityQueue, MethodCompare
+from app.loan import StandardLoan
+from app.priority_queue import PriorityQueue
 
 class PriorityQueueTest(unittest.TestCase):
   def setUp(self):
@@ -60,7 +61,6 @@ class PriorityQueueTest(unittest.TestCase):
     self.assertEqual(blizzard.get_percent_principal(), StandardLoan.Dec(96.66))
 
   def test_snowball(self):
-    snowball = self.priority_queue.snowball()
     snowball = self.priority_queue.snowball()
     snowball.display_info()
     self.assertEqual(snowball.get_duration(), StandardLoan.Dec(17))

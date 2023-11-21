@@ -1,7 +1,7 @@
 import os
 from flask import Flask, send_from_directory, request, session, redirect, render_template
 from dotenv import load_dotenv
-from app.loan import *
+from app.loan import StandardLoan
 
 load_dotenv()
 

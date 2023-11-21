@@ -1,6 +1,5 @@
 import os
 import mysql.connector as mySQL
-from loan import *
 
 #   Context Manager for Cursor
 class Cursor:
@@ -29,7 +28,7 @@ class LoanDBConnector:
         self.connection = mySQL.MySQLConnection(**self.config)
 
     #   Put loan object info into db
-    def add_loan_to_db(self, loan_obj: StandardLoan):
+    def add_loan_to_db(self, loan_obj):
         insert = "INSERT INTO loans (title, start_bal, int_rate, payment_amount) VALUES (%s, %s, %s, %s)"
         values = (loan_obj.title, loan_obj.start_balance, loan_obj.int_rate, loan_obj.payment_amt)
 
@@ -39,7 +38,7 @@ class LoanDBConnector:
 
     #   Compare loan object payment history with payment history in db associated with loan obj
     #   Update payment history in db
-    def add_payment_to_history(self, loan_obj: StandardLoan):
+    def add_payment_to_history(self, loan_obj):
         insert = "INSERT INTO payment_history (title, start_bal, int_rate) VALUES (%s, %s, %s)"
         pass
 
@@ -78,6 +77,3 @@ class LoanDBConnector:
 
     def close_connection(self):
         self.connection.close()
-
-
-

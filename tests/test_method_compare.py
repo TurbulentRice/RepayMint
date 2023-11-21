@@ -1,6 +1,8 @@
 import unittest
 import random
-from app import StandardLoan, PriorityQueue, MethodCompare
+from app.loan import StandardLoan
+from app.priority_queue import PriorityQueue
+from app.method_compare import MethodCompare
 
 class PriorityQueueTest(unittest.TestCase):
   def setUp(self):
@@ -31,23 +33,26 @@ class PriorityQueueTest(unittest.TestCase):
   def test_interest_goal(self):
     self.method_compare.order_by('interest')
     self.assertEqual(self.method_compare.grid[0].title, 'Test Loans(avalanche)')
-    self.assertEqual(self.method_compare.grid[1].title, 'Test Loans(snowball)')
-    self.assertEqual(self.method_compare.grid[2].title, 'Test Loans(cascade)')
+    self.assertEqual(self.method_compare.grid[1].title, 'Test Loans(cascade)')
+    self.assertEqual(self.method_compare.grid[2].title, 'Test Loans(blizzard)')
     self.assertEqual(self.method_compare.grid[3].title, 'Test Loans(ice_slide)')
+    self.assertEqual(self.method_compare.grid[4].title, 'Test Loans(snowball)')
 
   def test_time_goal(self):
     self.method_compare.order_by('time')
-    self.assertEqual(self.method_compare.grid[0].title, 'Test Loans(ice_slide)')
-    self.assertEqual(self.method_compare.grid[1].title, 'Test Loans(avalanche)')
-    self.assertEqual(self.method_compare.grid[2].title, 'Test Loans(cascade)')
-    self.assertEqual(self.method_compare.grid[3].title, 'Test Loans(blizzard)')
+    self.assertEqual(self.method_compare.grid[0].title, 'Test Loans(avalanche)')
+    self.assertEqual(self.method_compare.grid[1].title, 'Test Loans(cascade)')
+    self.assertEqual(self.method_compare.grid[2].title, 'Test Loans(blizzard)')
+    self.assertEqual(self.method_compare.grid[3].title, 'Test Loans(ice_slide)')
+    self.assertEqual(self.method_compare.grid[4].title, 'Test Loans(snowball)')
 
   def test_fewest_payments_goal(self):
     self.method_compare.order_by('num_p')
-    self.assertEqual(self.method_compare.grid[0].title, 'Test Loans(snowball)')
-    self.assertEqual(self.method_compare.grid[1].title, 'Test Loans(avalanche)')
-    self.assertEqual(self.method_compare.grid[2].title, 'Test Loans(cascade)')
+    self.assertEqual(self.method_compare.grid[0].title, 'Test Loans(avalanche)')
+    self.assertEqual(self.method_compare.grid[1].title, 'Test Loans(cascade)')
+    self.assertEqual(self.method_compare.grid[2].title, 'Test Loans(blizzard)')
     self.assertEqual(self.method_compare.grid[3].title, 'Test Loans(ice_slide)')
+    self.assertEqual(self.method_compare.grid[4].title, 'Test Loans(snowball)')
 
 if __name__ == "main":
   unittest.main()
