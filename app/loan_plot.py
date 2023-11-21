@@ -99,5 +99,3 @@ class LoanPlot:
 		x_axis = loan.Payment_History['pay_no']
 		y_axis = loan.Payment_History['balance']
 		ax.plot(x_axis, y_axis)
-
-	

@@ -33,7 +33,7 @@ class Loan:
             "principal": [self.Dec(0)],
             "interest": [self.Dec(0)],
             "pay_no": [0]
-            }
+        }
 
     ###############################
     #   PRIMARY GETTER / SETTERS
@@ -89,6 +89,16 @@ class Loan:
     def payment_amt(self, n):
         self._payment_amt = self.Dec(n)
 
+    def to_json(self):
+        return {
+            "title": self.title,
+            "term": self.term,
+            "start_balance": self.start_balance,
+            "int_rate": self.int_rate,
+            "payment_amt": self.payment_amt,
+            "payment_history": self.Payment_History
+        }
+
     #######################
     #   GENERAL METHODS
     #######################
@@ -112,16 +122,17 @@ class Loan:
         return (self.current_bal == 0)
 
     def get_payment_info(self):
-        return [f"Title: {self.title}",
-                f"Starting Balance: {self.start_balance}",
-                f"Current Balance: ${self.current_bal}",
-                f"Interest Rate: {self.int_rate}%",
-                f"Number of payments made: {self.pay_no}",
-                f"Interest Paid: ${self.get_interest_paid()}, {self.get_p_to_i('i')}%",
-                f"Principal Paid: ${self.get_principal_paid()}, {self.get_p_to_i('p')}%",
-                f"Total Paid: ${self.get_total_paid()}",
-                f"Principal to Interest Ratio: {self.get_p_to_i()}:1"
-                ]
+        return [
+            f"Title: {self.title}",
+            f"Starting Balance: {self.start_balance}",
+            f"Current Balance: ${self.current_bal}",
+            f"Interest Rate: {self.int_rate}%",
+            f"Number of payments made: {self.pay_no}",
+            f"Interest Paid: ${self.get_interest_paid()}, {self.get_p_to_i('i')}%",
+            f"Principal Paid: ${self.get_principal_paid()}, {self.get_p_to_i('p')}%",
+            f"Total Paid: ${self.get_total_paid()}",
+            f"Principal to Interest Ratio: {self.get_p_to_i()}:1"
+        ]
 
     #######################################
     #   COMPUTATION ATTRIBUTES / METHODS
@@ -312,4 +323,3 @@ class StandardLoan(Loan):
 
         #   Otherwise, call recursive inner,
         return inner(s_bal)
-

@@ -30,18 +30,10 @@ if __name__ == "__main__":
 		return [StandardLoan(r_bal(), r_ir(), term=r_term()) for i in range(n)]
 
 	##########################################
-	#Specific example
-	my_budget = 1200
-	my_loans = [
-		StandardLoan(2406.65, 4.41, title="2014", term=120),
-		StandardLoan(2472.91, 3.61, title="2013", term=120)
-		#StandardLoan(6282.30, 6.1, title="2012", term=120),
-		#StandardLoan(5930.42, 6.1, title="2011", term=120)
-		]
 
 	# Random example
-	# my_budget = get_rand_budg()
-	# my_loans = get_rand_loans(4)
+	my_budget = get_rand_budg()
+	my_loans = get_rand_loans(4)
 
 	##########################################
 
@@ -87,4 +79,3 @@ if __name__ == "__main__":
 		LoanApp.start()
 
 	#launch_GUI()
-

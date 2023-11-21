@@ -1,3 +1,4 @@
+import os
 import mysql.connector as mySQL
 from loan import *
 
@@ -18,10 +19,10 @@ class Cursor:
 class LoanDBConnector:
     def __init__(self):
         self.config = {
-            "host": "localhost",
-            "user": "root",
-            "passwd": "password123",
-            "database": "loan_calc_db"
+            "host": os.environ.get('DB_HOST'),
+            "user": os.environ.get('DB_USER'),
+            "passwd": os.environ.get('DB_PASSWORD'),
+            "database": os.environ.get('DB_NAME')
         }
 
         #   We'll use the MySQLConnection object, so that the connection itself can be passed
