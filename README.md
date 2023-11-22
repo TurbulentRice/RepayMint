@@ -108,10 +108,10 @@ Orders loans by interest rate and balance. Payments target the loan with the hig
 This algorithm consistently results in the lowest interest paid
 over the course of large loans.
 
-<img src="examples/avalance/My_Loans(avalanche_branch)_1.png" width="450" alt="Avalanche Example 1">
-<img src="examples/avalance/My_Loans(avalanche_branch)_2.png" width="450" alt="Avalanche Example 2">
-<img src="examples/avalance/My_Loans(avalanche_branch)_3.png" width="450" alt="Avalanche Example 3">
-<img src="examples/avalance/My_Loans(avalanche_branch)_4.png" width="450" alt="Avalanche Example 4">
+<img src="examples/avalanche/My_Loans(avalanche_branch)_1.png" width="450" alt="Avalanche Example 1">
+<img src="examples/avalanche/My_Loans(avalanche_branch)_2.png" width="450" alt="Avalanche Example 2">
+<img src="examples/avalanche/My_Loans(avalanche_branch)_3.png" width="450" alt="Avalanche Example 3">
+<img src="examples/avalanche/My_Loans(avalanche_branch)_4.png" width="450" alt="Avalanche Example 4">
 
 ### Blizzard
 Orders loans by monthly interest cost. Payments target the loan with the largest monthly interest cost until all loans are paid off. The targeted loan can change with every payment when multiple loans are equally "expensive." This accounts for the tooth-like pattern in loan payment histories.
