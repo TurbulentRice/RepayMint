@@ -53,6 +53,22 @@ npm run build
 npm run dev
 ```
 
+## Testing
+
+Using unittest standard library.
+
+```py
+python -m unittest discover tests
+```
+
+## Theme
+
+Mint:     #31C48D
+
+Forest:   #096A2E
+
+Gray:     #ADBFB8
+
 ## Matplotlib / Tkinter GUI
 
 [main.py](main.py) is leftover from before the move to Preact and everything was serverless.
@@ -77,22 +93,6 @@ Ice Slide attempts to distribute monthly payments according to minimum payments,
 
 Snowball pays off the smallest loan and moves on to the next, causing our loan to be paid off suddenly once it has the smallest balance.
 ![Snowball Example](./examples/snowball.png)
-
-## Testing
-
-Using unittest standard library.
-
-```py
-python -m unittest discover tests
-```
-
-## Theme
-
-Mint:     #31C48D
-
-Forest:   #096A2E
-
-Gray:     #ADBFB8
 
 # Loan Repayment Algorithms Overview
 
