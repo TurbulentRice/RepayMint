@@ -77,24 +77,27 @@ Gray:     #ADBFB8
 python main.py
 ```
 
-This is an example of how a single loan might be paid off according to the different repayment algorithms:
-
-Avalanche method targets the loan with the highest interest rate, so our loan must not have had the highest in the group must not have had the highest because payments were not targeted toward it until 50 months into repayment.
-![Avalanche Example](./examples/avalanche.png)
-
-Blizzard method targets the loan with the highest interest cost, which can change with every payment when multiple loans are equally "expensive." This accounts for the tooth-like pattern of our loan's payment history.
-![Blizzard Example](./examples/blizzard.png)
-
-Cascade attempts to distribute monthly payments according to interest rate, resulting in steady payment histories like this.
-![Cascade Example](./examples/cascade.png)
-
-Ice Slide attempts to distribute monthly payments according to minimum payments, similar to Cascade
-![Ice Slide Example](./examples/ice_slide.png)
-
-Snowball pays off the smallest loan and moves on to the next, causing our loan to be paid off suddenly once it has the smallest balance.
-![Snowball Example](./examples/snowball.png)
-
 # Loan Repayment Algorithms Overview
+
+Given the following loans and monthly budget:
+
+Budget:               $1,713.39/mo
+
+Loan 1:
+  - Start balance:    $16,228.66
+  - Interest rate:    3.52%
+
+Loan 2:
+  - Start balance:    $14,346.09
+  - Interest rate:    1.77%
+
+Loan 3:
+  - Start balance:    $9,336.35
+  - Interest rate:    2.4%
+
+Loan 4:
+  - Start balance:    $5,117.88
+  - Interest rate:    1.22%
 
 ## Ordered Algorithms
 Ordered algorithms are focused on targeting a single loan each pay cycle, paying only minimums on all except the target loan, paying one off at a time.
@@ -105,21 +108,46 @@ Orders loans by interest rate and balance. Payments target the loan with the hig
 This algorithm consistently results in the lowest interest paid
 over the course of large loans.
 
-### Blizzard
-Orders loans by monthly interest cost. Payments target the loan with the largest monthly interest cost until all loans are paid off.
+<img src="examples/avalance/My_Loans(avalanche_branch)_1.png" width="450" alt="Avalanche Example 1">
+<img src="examples/avalance/My_Loans(avalanche_branch)_2.png" width="450" alt="Avalanche Example 2">
+<img src="examples/avalance/My_Loans(avalanche_branch)_3.png" width="450" alt="Avalanche Example 3">
+<img src="examples/avalance/My_Loans(avalanche_branch)_4.png" width="450" alt="Avalanche Example 4">
 
-This algorithm is imilar to Avalanche, providing some benefits for small loans and/or large budgets.
+### Blizzard
+Orders loans by monthly interest cost. Payments target the loan with the largest monthly interest cost until all loans are paid off. The targeted loan can change with every payment when multiple loans are equally "expensive." This accounts for the tooth-like pattern in loan payment histories.
+
+This algorithm is similar to Avalanche, providing some benefits for small loans and/or large budgets.
+
+<img src="examples/blizzard/My_Loans(blizzard_branch)_1.png" width="450" alt="Blizzard Example 1">
+<img src="examples/blizzard/My_Loans(blizzard_branch)_2.png" width="450" alt="Blizzard Example 2">
+<img src="examples/blizzard/My_Loans(blizzard_branch)_3.png" width="450" alt="Blizzard Example 3">
+<img src="examples/blizzard/My_Loans(blizzard_branch)_4.png" width="450" alt="Blizzard Example 4">
 
 ### Snowball
 Orders loans by balance. Payments target the loan with the lowest starting balance until all loans are paid off.
 
 This algorithm is largely motivaitonal, quickly reducing the number of outstanding loans, but is not necessarily cost-effective.
 
+<img src="examples/snowball/My_Loans(snowball_branch)_1.png" width="450" alt="Snowball Example 1">
+<img src="examples/snowball/My_Loans(snowball_branch)_2.png" width="450" alt="Snowball Example 2">
+<img src="examples/snowball/My_Loans(snowball_branch)_3.png" width="450" alt="Snowball Example 3">
+<img src="examples/snowball/My_Loans(snowball_branch)_4.png" width="450" alt="Snowball Example 4">
+
 ## Unordered Algorithms
-Unordered algorithms focus on targetting payments strategically. These methods can reduce short-terms monthly costs of loans.
+Unordered algorithms distribute payments strategically, according to need, and result in steady payment histories. These methods can reduce short-terms monthly costs of loans.
 
 ### Cascade
 Distributes a percentage of a monthly budget to each loan each pay cycle, proportional to the loan's percentage contribution to the total (sum) interest rate of all loans.
 
+<img src="examples/cascade/My_Loans(cascade_branch)_1.png" width="450" alt="Cascade Example 1">
+<img src="examples/cascade/My_Loans(cascade_branch)_2.png" width="450" alt="Cascade Example 2">
+<img src="examples/cascade/My_Loans(cascade_branch)_3.png" width="450" alt="Cascade Example 3">
+<img src="examples/cascade/My_Loans(cascade_branch)_4.png" width="450" alt="Cascade Example 4">
+
 ### Ice Slide
 Distributes a percentage of a monthly budget to each loan each pay cycle, proportional to the loan's percentage contribution to the total (sum) monthly cost (minimum payments) of all loans.
+
+<img src="examples/ice_slide/My_Loans(ice_slide_branch)_1.png" width="450" alt="Ice Slide Example 1">
+<img src="examples/ice_slide/My_Loans(ice_slide_branch)_2.png" width="450" alt="Ice Slide Example 2">
+<img src="examples/ice_slide/My_Loans(ice_slide_branch)_3.png" width="450" alt="Ice Slide Example 3">
+<img src="examples/ice_slide/My_Loans(ice_slide_branch)_4.png" width="450" alt="Ice Slide Example 4">
