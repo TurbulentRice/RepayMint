@@ -11,8 +11,6 @@ This helped dispell some of the mystery, but to be useful, these tools also had 
 - What is the fastest way to pay off all my outstanding loans?
 - What is the cheapest way (least interest paid)?
 
-![Loan Timeline Example](./examples/example1.png)
-
 ## Requirements
 - Pyton 3.9+
 - [Node Version Manager](https://github.com/nvm-sh/nvm)
@@ -62,6 +60,23 @@ npm run dev
 ```py
 python main.py
 ```
+
+This is an example of how a single loan might be paid off according to the different repayment algorithms:
+
+Avalanche method targets the loan with the highest interest rate, so our loan must not have had the highest in the group must not have had the highest because payments were not targeted toward it until 50 months into repayment.
+![Avalanche Example](./examples/avalanche.png)
+
+Blizzard method targets the loan with the highest interest cost, which can change with every payment when multiple loans are equally "expensive." This accounts for the tooth-like pattern of our loan's payment history.
+![Blizzard Example](./examples/blizzard.png)
+
+Cascade attempts to distribute monthly payments according to interest rate, resulting in steady payment histories like this.
+![Cascade Example](./examples/cascade.png)
+
+Ice Slide attempts to distribute monthly payments according to minimum payments, similar to Cascade
+![Ice Slide Example](./examples/ice_slide.png)
+
+Snowball pays off the smallest loan and moves on to the next, causing our loan to be paid off suddenly once it has the smallest balance.
+![Snowball Example](./examples/snowball.png)
 
 ## Testing
 
