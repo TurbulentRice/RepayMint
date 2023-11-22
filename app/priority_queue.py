@@ -84,19 +84,26 @@ class PriorityQueue:
 
     # Return a PriorityQueue of branch loans from instance
     def branch_Queue(self, t=None):
-        return PriorityQueue([l.branch() for l in self.Q], self.budget, title=t)
+        return PriorityQueue([l.branch(t) for l in self.Q], self.budget, title=t)
 
     # Order loans based on key (not neccessary for cascade or ice_slide)
-    def prioritize(self, key):
+    def prioritize(self, key='balance'):
         if key == 'avalanche':
             # Sort by IR
             self.Q.sort(key=lambda loan: (loan.int_rate, loan.current_bal))
+            return self
         elif key == 'blizzard':
             # Sorty by monthly interest cost
             self.Q.sort(key=lambda loan: (loan.get_int_due()))
+            return self
         elif key == 'snowball':
             # Sort by descending balance
             self.Q.sort(key=lambda loan: (loan.current_bal), reverse=True)
+            return self
+        elif key == 'balance':
+            # Sort by descending balance
+            self.Q.sort(key=lambda loan: (loan.start_balance), reverse=True)
+            return self
 
     # Set payment amounts in each loan based on key
     # Return remainder of budget after min satisfied
@@ -203,7 +210,7 @@ class PriorityQueue:
         order_every = (key == "blizzard")
 
         # 1) Create tempQ(branch), completedQ(empty) structures
-        temp_Queue = self.branch_Queue(t=self.title+'(branch)')
+        temp_Queue = self.branch_Queue(t=f"{self.title}({key} branch)")
         completed_Queue = PriorityQueue([], self.budget, title=self.title+f'({key})')
 
         # Initial ordering

@@ -55,6 +55,14 @@ npm run build
 npm run dev
 ```
 
+## Matplotlib / Tkinter GUI
+
+[main.py](main.py) is leftover from before the move to Preact and everything was serverless.
+
+```py
+python main.py
+```
+
 ## Testing
 
 Using unittest standard library.

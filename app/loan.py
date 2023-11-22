@@ -251,11 +251,11 @@ class StandardLoan(Loan):
     ###############################################
 
     # Return a new StandardLoan using self's state as init data
-    def branch(self):
+    def branch(self, t=None):
         b = self.current_bal
         i = self.int_rate
         pa = self.payment_amt
-        t = self.title + '(branch)'
+        t = t if t is not None else self.title + '(branch)'
         m = self.term
         return StandardLoan(b, i, pa, title=t, term=m)
 

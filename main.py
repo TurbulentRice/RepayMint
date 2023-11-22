@@ -11,6 +11,7 @@ from app.view_controller import MainWindow
 from app.loan_plot import LoanPlot
 from app.loan import Loan, StandardLoan
 from app.priority_queue import PriorityQueue
+from app.method_compare import MethodCompare
 import random
 
 ############
@@ -43,32 +44,39 @@ if __name__ == "__main__":
 
 	my_Queue.display_info()
 
-	# Get a new paid-off queue for each repayment mehtod
-	# avalanche = my_Queue.avalanche()
-	# cascade = my_Queue.cascade()
-	# ice_slide = my_Queue.ice_slide()
-	# blizzard = my_Queue.blizzard()
-	# snowball = my_Queue.snowball()
+	# Get a new paid-off queue for each repayment mehtod, sort
+	avalanche = my_Queue.avalanche().prioritize()
+	cascade = my_Queue.cascade().prioritize()
+	ice_slide = my_Queue.ice_slide().prioritize()
+	blizzard = my_Queue.blizzard().prioritize()
+	snowball = my_Queue.snowball().prioritize()
 
 	# Get a MethodCompare obj of paid off queues sorted by goal
-	best = my_Queue.find_best(goal='interest', minimum='int')
+	my_MethodCompare = my_Queue.find_best(goal='interest', minimum='int')
 
-	# Display all completed q ordered by "best" method
+	# Display all completed queues ordered by "best" method
 	# print(f'Best:')
-	# best.display_info(histories=True)
+	# my_MethodCompare.display_info(histories=True)
 	# print(Loan.INSTANCE_COUNTER)
 
-	#JSON Save feature
-	c = input("Would you like to save results? (y/n): ")
-	if c == 'y':
-		for q in best.grid:
-			q.save_results()
-	else:
-		print("Bye!")
+	# JSON Save feature
+	# c = input("Would you like to save results? (y/n): ")
+	# if c == 'y':
+	# 	for q in my_MethodCompare.grid:
+	# 		q.save_results()
+	# else:
+	# 	print("Bye!")
 
+	# Show how the best repayment method payed off all the loans
+	# view = LoanPlot(my_MethodCompare.top())
+	# view.plot_history()
 
-	view = LoanPlot(best)
-	view.plot_history()
+	# Compare how each repayment method pays off a single loan
+	view = LoanPlot(PriorityQueue([
+		avalanche.Q[0], cascade.Q[0], ice_slide.Q[0], blizzard.Q[0], snowball.Q[0]
+	], my_budget))
+
+	view.plot_analysis()
 
 	# GUI/database implemenation
 	def launch_GUI():
@@ -76,4 +84,4 @@ if __name__ == "__main__":
 		LoanApp = MainWindow()
 		LoanApp.start(StandardLoan(7024.12, 3.75, term=120))
 
-	launch_GUI()
+	# launch_GUI()
