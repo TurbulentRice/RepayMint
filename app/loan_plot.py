@@ -140,7 +140,7 @@ class LoanPlot:
 		#   Payment History Plot
 		####################################
 		title = loan.title if idx is None else f"{loan.title} {idx}"
-		plt.figure(title)
+		plt.figure(title, figsize=(10,7))
 
 		#   Balance History Plots
 		#   Define axes of graph based on Highest Balance and # Payments

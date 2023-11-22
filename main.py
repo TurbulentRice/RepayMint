@@ -1,11 +1,6 @@
 # Program that models individual loan ammortization schedules, 
 # Compares repayment strategy timelines across multiple Loans,
-# Finds "best" payment configuration
-
-# Implemenet Model-View-Controller design pattern
-# Model:	loan.py, Loan data structures
-# View:		loan_plot
-# Control:	tk UI
+# Finds best repayment payment strategy based on a goal
 
 from app.view_controller import MainWindow
 from app.loan_plot import LoanPlot
@@ -41,7 +36,6 @@ if __name__ == "__main__":
 
 	# Start our primary queue and display
 	my_Queue = PriorityQueue(my_loans, my_budget, title="My Loans")
-
 	my_Queue.display_info()
 
 	# Get a new paid-off queue for each repayment mehtod, sort
@@ -51,32 +45,30 @@ if __name__ == "__main__":
 	blizzard = my_Queue.blizzard().prioritize()
 	snowball = my_Queue.snowball().prioritize()
 
-	# Get a MethodCompare obj of paid off queues sorted by goal
-	my_MethodCompare = my_Queue.find_best(goal='interest', minimum='int')
+	# Get a PriorityQueue instance from a single loan, paid-off five different ways
+	# Compare how each repayment method payed off a single loan
 
-	# Display all completed queues ordered by "best" method
-	# print(f'Best:')
-	# my_MethodCompare.display_info(histories=True)
-	# print(Loan.INSTANCE_COUNTER)
+	# single_loan_queue = PriorityQueue([
+	# 	avalanche.Q[0], cascade.Q[0], ice_slide.Q[0], blizzard.Q[0], snowball.Q[0]
+	# ], my_budget)
+	# single_loan_view = LoanPlot(single_loan_queue)
+	# single_loan_view.plot_analysis()
 
-	# JSON Save feature
-	# c = input("Would you like to save results? (y/n): ")
-	# if c == 'y':
-	# 	for q in my_MethodCompare.grid:
-	# 		q.save_results()
-	# else:
-	# 	print("Bye!")
+	# Get a MethodCompare instance from the paid-off queues, sorted by interest
+	# Compare how each repayment method payed off each loan
 
-	# Show how the best repayment method payed off all the loans
-	# view = LoanPlot(my_MethodCompare.top())
-	# view.plot_history()
+	# Equivalent to: my_Queue.find_best()
+	my_MethodCompare = MethodCompare([
+		avalanche, cascade, ice_slide, blizzard, snowball
+	])
+	my_MethodCompare.order_by('interest')
+	all_loan_view = LoanPlot(my_MethodCompare)
+	all_loan_view.plot_analysis()
 
-	# Compare how each repayment method pays off a single loan
-	view = LoanPlot(PriorityQueue([
-		avalanche.Q[0], cascade.Q[0], ice_slide.Q[0], blizzard.Q[0], snowball.Q[0]
-	], my_budget))
-
-	view.plot_analysis()
+	# Show how just the "best" repayment method payed off all the loans
+	# best_queue_view = LoanPlot(my_MethodCompare.top())
+	# best_queue_view.plot_history()
+	# best_queue_view.plot_analysis()
 
 	# GUI/database implemenation
 	def launch_GUI():
