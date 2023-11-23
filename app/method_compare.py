@@ -9,6 +9,9 @@ class MethodCompare:
 
   def top(self):
     return self.grid[0]
+  
+  def to_json(self):
+    return [queue.to_json() for queue in self.grid]
 
   def order_by(self, goal):
     if goal == 'interest':

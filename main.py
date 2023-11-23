@@ -57,7 +57,7 @@ if __name__ == "__main__":
 	# Get a MethodCompare instance from the paid-off queues, sorted by interest
 	# Compare how each repayment method payed off each loan
 
-	# Equivalent to: my_Queue.find_best()
+	# Equivalent to: my_Queue.finish()
 	my_MethodCompare = MethodCompare([
 		avalanche, cascade, ice_slide, blizzard, snowball
 	])

@@ -2,11 +2,21 @@ import os
 from flask import Flask, send_from_directory, request, session, redirect, render_template
 from dotenv import load_dotenv
 from app.loan import StandardLoan
+from app.priority_queue import PriorityQueue
 
 load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('APP_KEY')
+
+# From README example
+example_queue = PriorityQueue([
+  StandardLoan(16228.66, 3.52, title="Loan 1"),
+  StandardLoan(14346.09, 1.77, title="Loan 2"),
+  StandardLoan(9336.35, 2.4, title="Loan 3"),
+  StandardLoan(5117.88, 1.22, title="Loan 4"),
+], 1713.39, 'Test Queue')
+# example_method_compare = example_queue.finish()
 
 # This is just to store Loans in session until we connect db
 @app.before_request
@@ -47,23 +57,51 @@ def new_loan():
     interest_rate = float(data['interestRate'])
     payment_amt = float(data['paymentAmt'])
     title = data['title']
-    loan = StandardLoan(start_balance, interest_rate, payment_amt, title).to_json()
+    loan = StandardLoan(start_balance, interest_rate, payment_amt, title)
+    loan.payoff()
+    loanJson = loan.to_json()
     # TODO replace with DB
     if 'loans' not in session:
       session['loans'] = []
-    session['loans'].append(loan)
-    return loan
+    session['loans'].append(loanJson)
+    return loanJson
 
 @app.route("/api/loan/payoff", methods=["GET", "POST"])
 def payoff_loan():
   if request.method == "POST":
     data = request.json
+    # title = data['title']
+    # loan = next((loan for loan in session['loans'] if loan['title'] == data['title']), None)
+    start_balance = float(data['startBalance'])
+    interest_rate = float(data['interestRate'])
+    payment_amt = float(data['paymentAmt'])
     title = data['title']
-    loan = next((loan for loan in session['loans'] if loan['title'] == data['title']), None)
+    loan = StandardLoan(start_balance, interest_rate, payment_amt, title)
+    loan.payoff()
     return loan.to_json()
+  
+@app.route("/api/loans/payoff", methods=["GET", "POST"])
+def payoff_loans():
+  if request.method == "POST":
+    data = request.json
+    return
 
 @app.route("/api/loans")
 def get_user_loans():
-  if 'loans' not in session:
-    session['loans'] = []
-  return session['loans']
+  # if 'loans' not in session:
+  #   session['loans'] = []
+  # Get user loans from database, solve them all
+  return example_queue.avalanche().to_json()
+
+@app.route("/api/queues")
+def get_user_queues():
+  # if 'loans' not in session:
+  #   session['loans'] = []
+  # Get user loans from database, solve them all
+  return {
+    "avalanche": example_queue.avalanche().to_json(),
+    "blizzard": example_queue.blizzard().to_json(),
+    "cascade": example_queue.cascade().to_json(),
+    "iceSlide": example_queue.ice_slide().to_json(),
+    "snowball": example_queue.snowball().to_json()
+  }

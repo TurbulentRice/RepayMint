@@ -41,6 +41,9 @@ class PriorityQueue:
     @property
     def size(self):
         return len(self.Q)
+    
+    def to_json(self):
+        return [loan.to_json() for loan in self.Q]
 
     ##################################
     #   EVALUATIVE METHODS
@@ -84,7 +87,7 @@ class PriorityQueue:
 
     # Return a PriorityQueue of branch loans from instance
     def branch_Queue(self, t=None):
-        return PriorityQueue([l.branch(t) for l in self.Q], self.budget, title=t)
+        return PriorityQueue([l.branch() for l in self.Q], self.budget, title=self.title if t is None else t)
 
     # Order loans based on key (not neccessary for cascade or ice_slide)
     def prioritize(self, key='balance'):
@@ -112,7 +115,7 @@ class PriorityQueue:
         for loan in self.Q:
             if key == 'int':
                 loan.payment_amt = loan.get_int_due()
-            if key == 'min':
+            elif key == 'min':
                 loan.payment_amt = loan.min_payment
             elif key == 'avg':
                 loan.payment_amt = (self.budget / self.size)
@@ -158,20 +161,20 @@ class PriorityQueue:
     #               target highest ir until all paid off.
     #               Consistently results in lowest interest paid
     #               over course of large loans.
-    def avalanche(self, minimum='min'):
+    def avalanche(self, minimum='int'):
         return self.debt_solve('avalanche', minimum)
     ############################################################
     # Blizzard:     Order loans by monthly interest cost,
     #               target most expensive until all paid off.
     #               Provides some benefits for small loans,
     #               and/or large budgets
-    def blizzard(self, minimum='min'):
+    def blizzard(self, minimum='int'):
         return self.debt_solve('blizzard', minimum)
     ############################################################
     # Snowball:     Order loans by balance, target loan with
     #               lowest starting bal, pay until all paid off.
     #               Largely motivaitonal, not cost-effective.
-    def snowball(self, minimum='min'):
+    def snowball(self, minimum='int'):
         return self.debt_solve('snowball', minimum)
     ############################################################
     # UNORDERED:    Focus on spreading payments strategically, rather
@@ -181,18 +184,18 @@ class PriorityQueue:
     # Cascade:      Unordered, distribute % of budget to each loan
     #               proportional to its % contribution to total
     #               interest rate of all loans.
-    def cascade(self, minimum='min'):
+    def cascade(self, minimum='int'):
         return self.debt_solve('cascade', minimum)
     ############################################################
     # Ice Slide:    Unordered, distribute % of budget to each loan
     #               proportional to its % contribution to total
     #               monthly cost (minimum payments) of all loans.
-    def ice_slide(self, minimum='min'):
+    def ice_slide(self, minimum='int'):
         return self.debt_solve('ice_slide', minimum)
     ############################################################
 
     # Do all methods, return MethodCompare obj of Queues sorted by "best"
-    def find_best(self, goal='interest', minimum='min'):
+    def finish(self, goal='interest', minimum='int'):
         all_complete = MethodCompare([
             self.avalanche(minimum),
             self.cascade(minimum),
@@ -210,7 +213,7 @@ class PriorityQueue:
         order_every = (key == "blizzard")
 
         # 1) Create tempQ(branch), completedQ(empty) structures
-        temp_Queue = self.branch_Queue(t=f"{self.title}({key} branch)")
+        temp_Queue = self.branch_Queue(t=f"{self.title} ({key})")
         completed_Queue = PriorityQueue([], self.budget, title=self.title+f'({key})')
 
         # Initial ordering
@@ -243,6 +246,14 @@ class PriorityQueue:
 
         # After every loan completes, (when temp Queue is empty), return completed Queue
         return completed_Queue
+    
+    # Solve-in-place every loan in the queue
+    def payoff(self, minimum='int'):
+        self.set_all_payments(minimum)
+        for loan in self.Q:
+            loan.payoff()
+            print(loan.Payment_History)
+        
 
     ######################
     #   DISPLAY METHODS

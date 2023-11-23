@@ -255,7 +255,7 @@ class StandardLoan(Loan):
         b = self.current_bal
         i = self.int_rate
         pa = self.payment_amt
-        t = t if t is not None else self.title + '(branch)'
+        t = self.title if t is None else f"{self.title} {t}"
         m = self.term
         return StandardLoan(b, i, pa, title=t, term=m)
 
