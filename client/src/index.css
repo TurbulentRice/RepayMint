@@ -1,3 +1,10 @@
+/*
+Mint:         #31C48D
+Mint:hover:   #2CAF7F
+Forest:       #096A2E
+Gray:         #ADBFB8
+*/
+
 html {
   font-size: 14px;
 }
@@ -14,8 +21,8 @@ body {
 .chart-container {
   margin: auto;
   position: relative;
-  height:40vh;
-  width:60vw;
+  height:50vh;
+  width:70vw;
 }
 
 @media only screen and (max-width: 768px) {
@@ -27,18 +34,11 @@ body {
 }
 
 .loan-index-head {
-  background-color: hsl(158, 60%, 48%);
-  border-color: #31C48D;
-  color: #fff;
+  background-color: #f8f9fa;
 }
 
 .loan-index-head:hover {
   cursor: pointer;
-  background-color: hsl(158, 60%, 43%);
-}
-
-.loan-index-item {
-
 }
 
 .loan-index-item:hover {
@@ -48,5 +48,20 @@ body {
 
 .loan-index-item.loan-index-item-selected {
   background-color: #f8f9fa;
+}
+
+.btn-primary {
+  background-color: #31C48D;
+  border-color: #31C48D;
+}
+
+.btn-primary:hover {
+  background-color: #2CAF7F;
+  border-color: #2CAF7F;
+}
+
+.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show>.btn-primary.dropdown-toggle {
+  background-color: #2CAF7F;
+  border-color: #2CAF7F;
 }
 

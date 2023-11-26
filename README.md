@@ -61,14 +61,6 @@ Using unittest standard library.
 python -m unittest discover tests
 ```
 
-## Theme
-
-Mint:     #31C48D
-
-Forest:   #096A2E
-
-Gray:     #ADBFB8
-
 ## Matplotlib / Tkinter GUI
 
 [main.py](main.py) is leftover from before the move to Preact and everything was serverless.

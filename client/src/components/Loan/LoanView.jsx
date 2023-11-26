@@ -3,10 +3,10 @@ import Chart from 'chart.js/auto';
 import { getUserQueues } from "../../ajax";
 
 export default function LoanView({ loans }) {
-  if (!loans) return <div></div>;
+  if (!loans) return <div> Add some loans to get started!</div>;
   
-  const [queues, setQueues] = useState();
-  const [method, setMethod] = useState('avalanche');
+  const [queues, setQueues] = useState({});
+  const [method, setMethod] = useState('default');
 
   const chartRef = useRef(null);
   const canvasRef = useRef(null);
@@ -14,14 +14,13 @@ export default function LoanView({ loans }) {
   useEffect(() => {
     (async () => {
       const userQueues = await getUserQueues();
+      console.log('FETCHED QUEUES:', userQueues)
       setQueues(userQueues);
     })();
   }, [loans]);
   
-  console.log('QUEUES:', queues)
-
   useEffect(() => {
-    const userLoans = queues ? queues[method] : loans;
+    const userLoans = queues[method] || loans;
     console.log('Making new chart for loans:', userLoans)
     chartRef.current = new Chart(canvasRef.current, {
       type: 'line',
@@ -43,11 +42,6 @@ export default function LoanView({ loans }) {
     return () => chartRef.current.destroy();
   }, [queues, method]);
 
-  const handle = (e) => {
-    console.log('Repayment method:', e.target.value)
-    setMethod(e.target.value);
-  };
-
   return (
     <>
       <div class="row">
@@ -56,7 +50,11 @@ export default function LoanView({ loans }) {
         <canvas id="loanChart" ref={canvasRef}></canvas>
       </div>
         <div class="col-4">
-        <select name="repaymentMethod" onChange={handle} class="form-control">
+        <select
+          name="repaymentMethod"
+          value={method}
+          onChange={(e) => setMethod(e.target.value)} class="form-control">
+          <option value="default">Default</option>
           <option value="avalanche">Avalanche</option>
           <option value="blizzard">Blizzard</option>
           <option value="cascade">Cascade</option>
