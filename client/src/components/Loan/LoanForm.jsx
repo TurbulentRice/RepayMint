@@ -2,34 +2,59 @@ export default function LoanForm({ submit, setValue }) {
   // Probably don't even have to set these in state, since we can extract values from form submit
   return (
     <form method="POST" onSubmit={submit} class="mb-2">
-      <Input
-        label="Title"
-        name="title"
-        isRequired={true}
-        onChange={setValue} />
-      <Input
-        label="Starting Balance"
-        name="startBalance"
-        isRequired={true}
-        onChange={setValue}
-        type="number"
-        inputMode="decimal" />
-      <Input
-        label="Interest Rate"
-        name="interestRate"
-        isRequired={true}
-        onChange={setValue}
-        type="number"
-        inputMode="decimal" />
-      <Input
-        label="Payment Amount"
-        name="paymentAmt"
-        isRequired={true}
-        onChange={setValue}
-        type="number"
-        inputMode="decimal" />
+      <div class="row">
+        {/* Title */}
+        <div class="col">
+          <Input
+            label="Title"
+            name="title"
+            isRequired={true}
+            onChange={setValue} />
+        </div>
+        {/* Start balance */}
+        <div class="col">
+          <Input
+            label="Starting Balance"
+            name="startBalance"
+            isRequired={true}
+            onChange={setValue}
+            type="number"
+            inputMode="decimal" />
+        </div>
+      </div>
+      <div class="row">
+        {/* Interest rate */}
+        <div class="col">
+          <Input
+            label="Interest Rate"
+            name="interestRate"
+            isRequired={true}
+            onChange={setValue}
+            type="number"
+            inputMode="decimal" />
+        </div>
+        {/* Monthly payment */}
+        <div class="col">
+          <Input
+            label="Payment Amount"
+            name="paymentAmt"
+            isRequired={true}
+            onChange={setValue}
+            type="number"
+            inputMode="decimal" />
+        </div>
+        {/* Term */}
+        <div class="col">
+          <Input
+            label="Term (months)"
+            name="terms"
+            isRequired={true}
+            onChange={setValue}
+            type="number" />
+        </div>
+      </div>
 
-      <button class="form-control btn btn-primary mt-2">Submit</button>
+      <button class="form-control btn btn-primary mt-2">+ Add loan</button>
     </form>
   );
 }

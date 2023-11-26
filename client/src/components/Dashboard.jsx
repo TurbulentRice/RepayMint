@@ -3,6 +3,7 @@ import LoanView from './Loan/LoanView';
 import LoanIndex from './Loan/LoanIndex';
 import LoanForm from './Loan/LoanForm';
 import { addUserLoan, getUserLoans } from '../ajax';
+import logo from '../img/repaymint-logo-400.png'
 
 export default function Dashboard() {
   const [loans, setLoans] = useState([]);
@@ -37,20 +38,28 @@ export default function Dashboard() {
       setLoans(fetchedLoans);
     })()
   }, []);
-  
-  console.log('LOANS IN STATE:', loans);
+
   return (
-    <div class="row">
-      <div class="col-4">
-        <LoanForm submit={submit} setValue={setValue} />
-        <LoanIndex loans={loans} selectedLoanIndex={selectedLoanIndex} selectLoan={selectLoan} removeLoan={removeLoan}/>
-        <a href="/logout" class="mb-0">Logout</a>
+    <>
+      <div class="row">
+        <div class="col-3 text-center">
+          <div class="d-flex">
+            <img src={logo} width={124} alt="RepayMint Logo" class="mx-auto"/>
+          </div>
+          <a href="/logout" class="mb-0">Logout</a>
+        </div>
+        <div class="col">
+          <LoanForm submit={submit} setValue={setValue} />
+        </div>
       </div>
-      <div class="col-6 text-center">
-        <LoanView loan={loans[selectedLoanIndex]} />
+      <div class="row">
+        <div class="col">
+          <LoanIndex loans={loans} selectedLoanIndex={selectedLoanIndex} selectLoan={selectLoan} removeLoan={removeLoan}/>
+        </div>
+        <div class="col">
+          <LoanView loans={loans} />
+        </div>
       </div>
-      <div class="col">
-      </div>
-    </div>
+    </>
   );
 }

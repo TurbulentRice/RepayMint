@@ -1,6 +1,8 @@
 export default function LoanIndexItem({ loan, isSelected, selectLoan, removeLoan, index }) {
   return (
-    <li class={`list-group-item p-2${isSelected ? ' bg-light' : ''}`}>
+    <li
+      class={`list-group-item loan-index-item p-2${isSelected ? ' loan-index-item-selected' : ''}`}
+      onClick={() => selectLoan(index)}>
 
       <section class="d-flex justify-content-between">
         <span><strong>{loan.title}</strong></span>
@@ -8,7 +10,7 @@ export default function LoanIndexItem({ loan, isSelected, selectLoan, removeLoan
       </section>
 
       <section class="d-flex justify-content-between">
-        <span>${loan.paymentAmount}/month</span>
+        <span>${loan.paymentAmt}/month</span>
         <span>{loan.interestRate}%</span>
       </section>
 

@@ -5,7 +5,7 @@
  */
 const unpackLoanData = (loanData) => ({
   interestRate: loanData.int_rate,
-  paymentAmount: loanData.payment_amt,
+  paymentAmt: loanData.payment_amt,
   paymentHistory: loanData.payment_history,
   startBalance: loanData.start_balance,
   term: loanData.term,
@@ -26,4 +26,13 @@ export async function getUserLoans() {
   const res = await fetch('/api/loans');
   const data = await res.json();
   return data.map((loanData) => unpackLoanData(loanData));
+}
+
+export async function getUserQueues() {
+  const res = await fetch('/api/queues');
+  const data = await res.json();
+  for (const queue in data) {
+    data[queue] = data[queue].map((loanData) => unpackLoanData(loanData))
+  }
+  return data;
 }
