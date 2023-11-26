@@ -11,12 +11,17 @@ app.secret_key = os.environ.get('APP_KEY')
 
 # From README example
 example_queue = PriorityQueue([
-  StandardLoan(16228.66, 3.52, title="Loan 1"),
-  StandardLoan(14346.09, 1.77, title="Loan 2"),
-  StandardLoan(9336.35, 2.4, title="Loan 3"),
-  StandardLoan(5117.88, 1.22, title="Loan 4"),
+  StandardLoan(16228.66, 3.52, pa=745.10, title="Loan 1", term=120),
+  StandardLoan(14346.09, 1.77, pa=1200, title="Loan 2", term=132),
+  StandardLoan(9336.35, 2.4, pa=485.12, title="Loan 3", term=24),
+  StandardLoan(5117.88, 1.22, pa=300, title="Loan 4", term=24),
 ], 1713.39, 'Test Queue')
 # example_method_compare = example_queue.finish()
+
+def solve_loans(queue):
+  paid_loans = queue.branch_Queue()
+  paid_loans.payoff()
+  return paid_loans
 
 # This is just to store Loans in session until we connect db
 @app.before_request
@@ -58,12 +63,13 @@ def new_loan():
     payment_amt = float(data['paymentAmt'])
     title = data['title']
     loan = StandardLoan(start_balance, interest_rate, payment_amt, title)
-    loan.payoff()
+    example_queue.add_loan(loan)
+    # loan.payoff()
     loanJson = loan.to_json()
     # TODO replace with DB
-    if 'loans' not in session:
-      session['loans'] = []
-    session['loans'].append(loanJson)
+    # if 'loans' not in session:
+    #   session['loans'] = []
+    # session['loans'].append(loanJson)
     return loanJson
 
 @app.route("/api/loan/payoff", methods=["GET", "POST"])
@@ -77,13 +83,13 @@ def payoff_loan():
     payment_amt = float(data['paymentAmt'])
     title = data['title']
     loan = StandardLoan(start_balance, interest_rate, payment_amt, title)
-    loan.payoff()
+    # loan.payoff()
     return loan.to_json()
   
 @app.route("/api/loans/payoff", methods=["GET", "POST"])
 def payoff_loans():
   if request.method == "POST":
-    data = request.json
+    # data = request.json
     return
 
 @app.route("/api/loans")
@@ -91,7 +97,7 @@ def get_user_loans():
   # if 'loans' not in session:
   #   session['loans'] = []
   # Get user loans from database, solve them all
-  return example_queue.avalanche().to_json()
+  return solve_loans(example_queue).to_json()
 
 @app.route("/api/queues")
 def get_user_queues():
