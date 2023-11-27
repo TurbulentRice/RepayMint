@@ -4,7 +4,7 @@ import useToggle from "../../hooks/useToggle";
 export default function LoanIndex({ loans, selectedLoanIndex, selectLoan, removeLoan }) {
   const { toggles, toggle } = useToggle({ loanIndexList: true });
   return (
-    <ul class="list-group">
+    <ul class="list-group mt-2">
       <li class="list-group-item loan-index-head" onClick={() => toggle('loanIndexList')}>
         Loans
           <div class="float-right">

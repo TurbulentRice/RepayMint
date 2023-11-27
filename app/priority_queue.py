@@ -71,6 +71,17 @@ class PriorityQueue:
 
     def get_percent_principal(self):
         return Loan.Dec(self.get_principal_paid() / self.get_total_paid() * 100)
+    
+    def get_analysis(self):
+        return {
+            "duration": self.get_duration(),
+            "num_payments": self.get_num_payments(),
+            "principal_paid": self.get_principal_paid(),
+            "interest_paid": self.get_interest_paid(),
+            "total_paid": self.get_total_paid(),
+            'avg_pi': self.get_avg_p_to_i(),
+            "percent_principal": self.get_percent_principal()
+        }
 
     ##############################
     #   PREPARATION METHODS
@@ -248,11 +259,12 @@ class PriorityQueue:
         return completed_Queue
     
     # Solve-in-place every loan in the queue
-    def payoff(self, minimum='int'):
-        self.set_all_payments(minimum)
+    def payoff(self):
+        # self.set_all_payments(minimum)
+        all_valid = False
         for loan in self.Q:
-            loan.payoff()
-            print(loan.Payment_History)
+            if loan.payoff(): all_valid = True
+        return all_valid
         
 
     ######################

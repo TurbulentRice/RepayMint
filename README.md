@@ -1,6 +1,6 @@
 # RepayMint
 
-RepayMint is a lightweight web application for modeling loan repayment timelines and comparing repayment strategies. It is based on Python data structures I wrote while paying off my student loans, to help visualize the many "What if's?":
+RepayMint is a lightweight web application for modeling loan repayment timelines and comparing repayment strategies. It is based on Python data structures I wrote while figuring out the best way to repay my student loans, to help conceptualize the many "What if's" that arose:
 
 - What if I increase/decrease my monthly payment?
 - What if I target payments to a single loan at a time?
@@ -10,6 +10,8 @@ This helped dispell some of the mystery, but to be useful, these tools also had 
 
 - What is the fastest way to pay off all my outstanding loans?
 - What is the cheapest way (least interest paid)?
+
+![RepayMint App](./examples/repaymint_ui.png)
 
 ## Requirements
 - Pyton 3.9+

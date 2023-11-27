@@ -50,9 +50,13 @@ export default function LoanForm({ submit, setValue }) {
             onChange={setValue}
             type="number" />
         </div>
+
+        <div class="col-md-10">
+          <button class="form-control btn btn-primary mt-2">+ Add loan</button>
+        </div>
+        
       </div>
 
-      <button class="form-control btn btn-primary mt-2">+ Add loan</button>
     </form>
   );
 }

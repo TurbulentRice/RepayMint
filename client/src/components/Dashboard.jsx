@@ -51,15 +51,15 @@ export default function Dashboard() {
   return (
     <>
       <div class="row">
-        <div class="col-3 text-center">
+        <div class="col-3 text-center mb-2">
           <div class="d-flex">
             <img src={logo} width={124} alt="RepayMint Logo" class="mx-auto"/>
           </div>
           <a href="/logout" class="mb-0">Logout</a>
         </div>
-        <div class="col border border-top-0 rounded">
+        <div class="col border border-top-0 rounded text-center">
           <LoanForm submit={submit} setValue={setValue} />
-          {errors.form && <div class="alert alert-danger">{errors.form}</div>}
+          {errors.form && <div class="alert alert-danger mt-2">{errors.form}</div>}
         </div>
       </div>
       <div class="row">

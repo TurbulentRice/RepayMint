@@ -20,7 +20,7 @@ export default function LoanView({ loans }) {
   }, [loans]);
   
   useEffect(() => {
-    const userLoans = queues[method] || loans;
+    const userLoans = queues[method]?.loans || loans;
     console.log('Making new chart for loans:', userLoans)
     chartRef.current = new Chart(canvasRef.current, {
       type: 'line',
@@ -44,23 +44,23 @@ export default function LoanView({ loans }) {
 
   return (
     <>
-      <div class="row">
+      <div class="row mt-2">
       </div>
       <div class="chart-container">
         <canvas id="loanChart" ref={canvasRef}></canvas>
-      </div>
         <div class="col-4">
-        <select
-          name="repaymentMethod"
-          value={method}
-          onChange={(e) => setMethod(e.target.value)} class="form-control">
-          <option value="default">Default</option>
-          <option value="avalanche">Avalanche</option>
-          <option value="blizzard">Blizzard</option>
-          <option value="cascade">Cascade</option>
-          <option value="iceSlide">Ice Slide</option>
-          <option value="snowball">Snowball</option>
-        </select>
+          <select
+            name="repaymentMethod"
+            value={method}
+            onChange={(e) => setMethod(e.target.value)} class="form-control">
+            <option value="default">Default</option>
+            <option value="avalanche">Avalanche</option>
+            <option value="blizzard">Blizzard</option>
+            <option value="cascade">Cascade</option>
+            <option value="iceSlide">Ice Slide</option>
+            <option value="snowball">Snowball</option>
+          </select>
+        </div>
       </div>
     </>
   );
