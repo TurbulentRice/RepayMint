@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from "preact/hooks";
 import Chart from 'chart.js/auto';
 import { getUserQueues } from "../../ajax";
+import AnalysisView from "../AnalysisView";
+import LoanChart from "./LoanChart";
 
-export default function LoanView({ loans }) {
+export default function LoanView({ loans, analysis }) {
   if (!loans) return <div> Add some loans to get started!</div>;
   
   const [queues, setQueues] = useState({});
@@ -44,24 +46,13 @@ export default function LoanView({ loans }) {
 
   return (
     <>
-      <div class="row mt-2">
-      </div>
-      <div class="chart-container">
-        <canvas id="loanChart" ref={canvasRef}></canvas>
-        <div class="col-4">
-          <select
-            name="repaymentMethod"
-            value={method}
-            onChange={(e) => setMethod(e.target.value)} class="form-control">
-            <option value="default">Default</option>
-            <option value="avalanche">Avalanche</option>
-            <option value="blizzard">Blizzard</option>
-            <option value="cascade">Cascade</option>
-            <option value="iceSlide">Ice Slide</option>
-            <option value="snowball">Snowball</option>
-          </select>
-        </div>
-      </div>
+
+      {/* Chart */}
+      <LoanChart canvasRef={canvasRef} />
+
+      {/* Analysis */}
+      <AnalysisView method={method} setMethod={setMethod} analysis={queues[method]?.analysis || analysis} />
+
     </>
   );
 }

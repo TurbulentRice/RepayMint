@@ -35,6 +35,7 @@ class PriorityQueue:
         return self._budget
     @budget.setter
     def budget(self, b):
+        # TODO If not b, add up loan payment amounts
         self._budget = Loan.Dec(b)
 
     # Length of Q

@@ -6,10 +6,15 @@ import { addUserLoan, getUserLoans } from '../ajax';
 import logo from '../img/repaymint-logo-400.png'
 
 export default function Dashboard() {
-  const [loans, setLoans] = useState([]);
+  const [loanData, setLoanData] = useState({
+    loans: [],
+    analysis: {}
+  });
+  const { loans, analysis } = loanData;
   const [selectedLoanIndex, setSelectedLoanIndex] = useState(0);
   const [values, setValues] = useState({});
   const [errors, setErrors] = useState({});
+  const updateError = (errorName, errorMessage) => setErrors((currentErrors) => ({...currentErrors, [errorName]: errorMessage}));
   
   const addLoan = (newLoan) => setLoans([...loans, newLoan]);
   const removeLoan = (loanIndex) => {
@@ -29,33 +34,33 @@ export default function Dashboard() {
   
   const submit = async (e) => {
     e.preventDefault();
-    setErrors((currentErrors) => ({...currentErrors, form: false}))
+    updateError('form', false);
     try {
       const newLoan = await addUserLoan(values);
       addLoan(newLoan);
     } catch(e) {
-      setErrors((currentErrors) => ({
-        ...currentErrors,
-        form: 'Payment amount must be enough to cover monthly interest.'
-      }))
+      console.error(e);
+      updateError('form', 'Payment amount must be enough to cover monthly interest.');
     }
   };
 
   useEffect(() => {
     (async () => {
-      const fetchedLoans = await getUserLoans();
-      setLoans(fetchedLoans);
+      try {
+        const fetchedLoans = await getUserLoans();
+        setLoanData(fetchedLoans);
+      } catch(e) {
+        console.error(e);
+        updateError('loanIndex', 'Could not retreive user loans.');
+      }
     })()
   }, []);
 
   return (
     <>
       <div class="row">
-        <div class="col-3 text-center mb-2">
-          <div class="d-flex">
-            <img src={logo} width={124} alt="RepayMint Logo" class="mx-auto"/>
-          </div>
-          <a href="/logout" class="mb-0">Logout</a>
+        <div class="col col-3 text-center mb-2">
+          <img src={logo} width={100} alt="RepayMint Logo"/>
         </div>
         <div class="col border border-top-0 rounded text-center">
           <LoanForm submit={submit} setValue={setValue} />
@@ -65,9 +70,10 @@ export default function Dashboard() {
       <div class="row">
         <div class="col-md-3 col-sm">
           <LoanIndex loans={loans} selectedLoanIndex={selectedLoanIndex} selectLoan={selectLoan} removeLoan={removeLoan}/>
+          <a href="/logout" class="mt-4">Logout</a>
         </div>
         <div class="col">
-          <LoanView loans={loans} />
+          <LoanView loans={loans} analysis={analysis} />
         </div>
       </div>
     </>

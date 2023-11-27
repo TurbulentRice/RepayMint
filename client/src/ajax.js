@@ -1,3 +1,5 @@
+import { formatDecimal } from "./util";
+
 /**
  * Interface Loan Data
  * @param {Object} loanData JSON representing Loan object
@@ -7,7 +9,7 @@ const unpackLoanData = (loanData) => ({
   interestRate: loanData.int_rate,
   paymentAmt: loanData.payment_amt,
   paymentHistory: loanData.payment_history,
-  startBalance: loanData.start_balance,
+  startBalance: formatDecimal(loanData.start_balance),
   term: loanData.term,
   title: loanData.title
 });
@@ -20,8 +22,9 @@ const unpackLoanData = (loanData) => ({
 const unpackLoanAnalysis = (loanAnalysis) => ({
   duration: loanAnalysis.duration,
   numPayments: loanAnalysis.num_payments,
-  principalPaid: loanAnalysis.principal_paid,
-  interestPaid: loanAnalysis.interest_paid,
+  principalPaid: formatDecimal(loanAnalysis.principal_paid),
+  interestPaid: formatDecimal(loanAnalysis.interest_paid),
+  totalPaid: formatDecimal(loanAnalysis.total_paid),
   avgPI: loanAnalysis.avg_pi,
   percentPrincipal: loanAnalysis.percent_principal
 });
@@ -39,7 +42,10 @@ export async function addUserLoan(body) {
 export async function getUserLoans() {
   const res = await fetch('/api/loans');
   const data = await res.json();
-  return data.map((loanData) => unpackLoanData(loanData));
+  return {
+    loans: data.loans.map((loanData) => unpackLoanData(loanData)),
+    analysis: unpackLoanAnalysis(data.analysis)
+  }
 }
 
 export async function getUserQueues() {

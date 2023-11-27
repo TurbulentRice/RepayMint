@@ -6,11 +6,11 @@ export default function LoanIndexItem({ loan, isSelected, selectLoan, removeLoan
 
       <section class="d-flex justify-content-between">
         <span><strong>{loan.title}</strong></span>
-        <span>${loan.startBalance}</span>
+        <span>{loan.startBalance}</span>
       </section>
 
       <section class="d-flex justify-content-between">
-        <span>${loan.paymentAmt}/month</span>
+        <span>{loan.paymentAmt}/month</span>
         <span>{loan.interestRate}%</span>
       </section>
 

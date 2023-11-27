@@ -20,7 +20,7 @@ db = {
 }
 
 # TODO Lookup loans and return completed queue object
-def get_user_loans_from_db():
+def get_user_queue_from_db():
   user_loans = [StandardLoan(loan[0], loan[1], pa=loan[2], title=loan[3], term=loan[4]) for loan in db['userLoans']]
   user_queue = PriorityQueue(user_loans, 1292.00, 'User Queue')
   # user_queue.payoff()
@@ -99,16 +99,19 @@ def new_loan():
 @app.route("/api/loans")
 def get_user_loans():
   # TODO Get user loans from database, solve them all
-  user_queue = get_user_loans_from_db()
+  user_queue = get_user_queue_from_db()
   user_queue.payoff()
-  return user_queue.to_json()
+  return {
+    "loans": user_queue.to_json(),
+    "analysis": user_queue.get_analysis()
+  }
 
 @app.route("/api/queues")
 def get_user_queues():
   # if 'loans' not in session:
   #   session['loans'] = []
   # Get user loans from database, solve them all
-  user_queue = get_user_loans_from_db()
+  user_queue = get_user_queue_from_db()
   avalanche = user_queue.avalanche()
   blizzard = user_queue.blizzard()
   cascade = user_queue.cascade()
