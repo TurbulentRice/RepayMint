@@ -36,8 +36,6 @@ source venv/bin/activate
 pip install -r requirements.txt
 # Run the Flask server in debug mode
 flask --app router run --debug
-# OR
-./run.sh
 ```
 
 Next, set up the front-end:
