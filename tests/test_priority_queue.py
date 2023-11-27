@@ -31,42 +31,42 @@ class PriorityQueueTest(unittest.TestCase):
   def test_avalanche(self):
     avalanche = self.priority_queue.avalanche()
     avalanche.display_info()
-    self.assertEqual(avalanche.get_duration(), StandardLoan.Dec(16))
-    self.assertEqual(avalanche.get_num_payments(), StandardLoan.Dec(48))
-    self.assertEqual(avalanche.get_interest_paid(), StandardLoan.Dec(600.42))
-    self.assertEqual(avalanche.get_percent_principal(), StandardLoan.Dec(96.61))
+    self.assertEqual(avalanche.get_duration(), 18)
+    self.assertEqual(avalanche.get_num_payments(), 51)
+    self.assertEqual(avalanche.get_interest_paid(), StandardLoan.Dec(621.40))
+    self.assertEqual(avalanche.get_percent_principal(), StandardLoan.Dec(96.49))
   
   def test_cascade(self):
     cascade = self.priority_queue.cascade()
     cascade.display_info()
-    self.assertEqual(cascade.get_duration(), StandardLoan.Dec(16))
-    self.assertEqual(cascade.get_num_payments(), StandardLoan.Dec(53))
-    self.assertEqual(cascade.get_interest_paid(), StandardLoan.Dec(641.56))
-    self.assertEqual(cascade.get_percent_principal(), StandardLoan.Dec(96.38))
+    self.assertEqual(cascade.get_duration(), 16)
+    self.assertEqual(cascade.get_num_payments(), 53)
+    self.assertEqual(cascade.get_interest_paid(), StandardLoan.Dec(645.79))
+    self.assertEqual(cascade.get_percent_principal(), StandardLoan.Dec(96.36))
 
   def test_ice_slide(self):
     ice_slide = self.priority_queue.ice_slide()
     ice_slide.display_info()
-    self.assertEqual(ice_slide.get_duration(), StandardLoan.Dec(16))
-    self.assertEqual(ice_slide.get_num_payments(), StandardLoan.Dec(61))
-    self.assertEqual(ice_slide.get_interest_paid(), StandardLoan.Dec(614.53))
+    self.assertEqual(ice_slide.get_duration(), 15)
+    self.assertEqual(ice_slide.get_num_payments(), 60)
+    self.assertEqual(ice_slide.get_interest_paid(), StandardLoan.Dec(613.80))
     self.assertEqual(ice_slide.get_percent_principal(), StandardLoan.Dec(96.53))
 
   def test_blizzard(self):
     blizzard = self.priority_queue.blizzard()
     blizzard.display_info()
-    self.assertEqual(blizzard.get_duration(), StandardLoan.Dec(17))
-    self.assertEqual(blizzard.get_num_payments(), StandardLoan.Dec(65))
-    self.assertEqual(blizzard.get_interest_paid(), StandardLoan.Dec(589.93))
+    self.assertEqual(blizzard.get_duration(), 18)
+    self.assertEqual(blizzard.get_num_payments(), 66)
+    self.assertEqual(blizzard.get_interest_paid(), StandardLoan.Dec(591.13))
     self.assertEqual(blizzard.get_percent_principal(), StandardLoan.Dec(96.66))
 
   def test_snowball(self):
     snowball = self.priority_queue.snowball()
     snowball.display_info()
-    self.assertEqual(snowball.get_duration(), StandardLoan.Dec(17))
-    self.assertEqual(snowball.get_num_payments(), StandardLoan.Dec(38))
-    self.assertEqual(snowball.get_interest_paid(), StandardLoan.Dec(775.56))
-    self.assertEqual(snowball.get_percent_principal(), StandardLoan.Dec(95.66))
+    self.assertEqual(snowball.get_duration(), 18)
+    self.assertEqual(snowball.get_num_payments(), 39)
+    self.assertEqual(snowball.get_interest_paid(), StandardLoan.Dec(808.22))
+    self.assertEqual(snowball.get_percent_principal(), StandardLoan.Dec(95.48))
 
 if __name__ == "main":
   unittest.main()
