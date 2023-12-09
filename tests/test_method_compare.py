@@ -18,41 +18,36 @@ class PriorityQueueTest(unittest.TestCase):
     # Start our primary queue and display
     self.priority_queue = PriorityQueue(self.loans, self.budget, title="Test Loans")
     # Get a MethodCompare obj
-    minimum = 'min'
     minimum = 'int'
-    minimum = 'avg'
-
-    self.method_compare = MethodCompare([
+    self.avalanche, self.cascade, self.blizzard, self.ice_slide, self.snowball = [
       self.priority_queue.avalanche(minimum),
       self.priority_queue.cascade(minimum),
       self.priority_queue.blizzard(minimum),
       self.priority_queue.ice_slide(minimum),
       self.priority_queue.snowball(minimum)
-    ])
+    ]
+    self.method_compare = MethodCompare([self.avalanche, self.cascade, self.blizzard, self.ice_slide, self.snowball])
 
-  def test_interest_goal(self):
+  def test_order_by_interest(self):
     self.method_compare.order_by('interest')
-    self.assertEqual(self.method_compare.grid[0].title, 'Test Loans(avalanche)')
-    self.assertEqual(self.method_compare.grid[1].title, 'Test Loans(cascade)')
-    self.assertEqual(self.method_compare.grid[2].title, 'Test Loans(blizzard)')
-    self.assertEqual(self.method_compare.grid[3].title, 'Test Loans(ice_slide)')
-    self.assertEqual(self.method_compare.grid[4].title, 'Test Loans(snowball)')
+    self.assertLessEqual(self.method_compare.grid[0].get_interest_paid(), self.method_compare.grid[1].get_interest_paid())
+    self.assertLessEqual(self.method_compare.grid[1].get_interest_paid(), self.method_compare.grid[2].get_interest_paid())
+    self.assertLessEqual(self.method_compare.grid[2].get_interest_paid(), self.method_compare.grid[3].get_interest_paid())
+    self.assertLessEqual(self.method_compare.grid[3].get_interest_paid(), self.method_compare.grid[4].get_interest_paid())
 
-  def test_time_goal(self):
+  def test_order_by_time(self):
     self.method_compare.order_by('time')
-    self.assertEqual(self.method_compare.grid[0].title, 'Test Loans(avalanche)')
-    self.assertEqual(self.method_compare.grid[1].title, 'Test Loans(cascade)')
-    self.assertEqual(self.method_compare.grid[2].title, 'Test Loans(blizzard)')
-    self.assertEqual(self.method_compare.grid[3].title, 'Test Loans(ice_slide)')
-    self.assertEqual(self.method_compare.grid[4].title, 'Test Loans(snowball)')
+    self.assertLessEqual(self.method_compare.grid[0].get_duration(), self.method_compare.grid[1].get_duration())
+    self.assertLessEqual(self.method_compare.grid[1].get_duration(), self.method_compare.grid[2].get_duration())
+    self.assertLessEqual(self.method_compare.grid[2].get_duration(), self.method_compare.grid[3].get_duration())
+    self.assertLessEqual(self.method_compare.grid[3].get_duration(), self.method_compare.grid[4].get_duration())
 
-  def test_fewest_payments_goal(self):
+  def test_order_by_fewest_payments(self):
     self.method_compare.order_by('num_p')
-    self.assertEqual(self.method_compare.grid[0].title, 'Test Loans(avalanche)')
-    self.assertEqual(self.method_compare.grid[1].title, 'Test Loans(cascade)')
-    self.assertEqual(self.method_compare.grid[2].title, 'Test Loans(blizzard)')
-    self.assertEqual(self.method_compare.grid[3].title, 'Test Loans(ice_slide)')
-    self.assertEqual(self.method_compare.grid[4].title, 'Test Loans(snowball)')
+    self.assertLessEqual(self.method_compare.grid[0].get_num_payments(), self.method_compare.grid[1].get_num_payments())
+    self.assertLessEqual(self.method_compare.grid[1].get_num_payments(), self.method_compare.grid[2].get_num_payments())
+    self.assertLessEqual(self.method_compare.grid[2].get_num_payments(), self.method_compare.grid[3].get_num_payments())
+    self.assertLessEqual(self.method_compare.grid[3].get_num_payments(), self.method_compare.grid[4].get_num_payments())
 
 if __name__ == "main":
   unittest.main()

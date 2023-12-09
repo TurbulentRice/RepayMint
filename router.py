@@ -67,35 +67,18 @@ def new_loan():
     term = int(data['term'])
     title = data['title']
     loan = StandardLoan(start_balance, interest_rate, pa=payment_amt, title=title, term=term)
-    isValid = loan.payoff()
-    if isValid:
-      # TODO Add loan to db
-      db['userLoans'].append([loan.start_balance, loan.int_rate, loan.payment_amt, loan.title, loan.term])
-      loanJson = loan.to_json()
-      return loanJson
-    else:
-      return 'Payments cannot cover interest.', 400
+    db['userLoans'].append([loan.start_balance, loan.int_rate, loan.payment_amt, loan.title, loan.term])
+    if not loan.can_payoff(): return 'Payments cannot cover interest.', 400
 
-# @app.route("/api/loan/payoff", methods=["GET", "POST"])
-# def payoff_loan():
-#   if request.method == "POST":
-#     data = request.json
-#     # title = data['title']
-#     # loan = next((loan for loan in session['loans'] if loan['title'] == data['title']), None)
-#     start_balance = float(data['startBalance'])
-#     interest_rate = float(data['interestRate'])
-#     payment_amt = float(data['paymentAmt'])
-#     title = data['title']
-#     loan = StandardLoan(start_balance, interest_rate, payment_amt, title)
-#     # loan.payoff()
-#     return loan.to_json()
-  
-# @app.route("/api/loans/payoff", methods=["GET", "POST"])
-# def payoff_loans():
-#   if request.method == "POST":
-#     # data = request.json
-#     return
-
+    # TODO Add loan to db adn return all user loans
+    # return loan.to_json()
+    user_queue = get_user_queue_from_db()
+    user_queue.payoff()
+    return {
+      "loans": user_queue.to_json(),
+      "analysis": user_queue.get_analysis()
+    }
+      
 @app.route("/api/loans")
 def get_user_loans():
   # TODO Get user loans from database, solve them all

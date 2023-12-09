@@ -15,7 +15,7 @@ class Loan:
     INSTANCE_COUNTER = 0
     UNTITLED_COUNTER = 0
 
-    def __init__(self, sb, ir, pa=0, title=None, term=None):
+    def __init__(self, sb: float, ir: float, pa: float = None, title: str = None, term: float = None):
         #   Count this instance
         Loan.INSTANCE_COUNTER += 1
 
@@ -84,10 +84,10 @@ class Loan:
     #   Payment amount
     @property
     def payment_amt(self):
-        return self._payment_amt
+        return self._payment_amt if self._payment_amt is not None else 0
     @payment_amt.setter
     def payment_amt(self, n):
-        self._payment_amt = self.Dec(n)
+        self._payment_amt = self.Dec(n) if n is not None else n
 
     def to_json(self):
         return {
@@ -96,7 +96,8 @@ class Loan:
             "start_balance": self.start_balance,
             "int_rate": self.int_rate,
             "payment_amt": self.payment_amt,
-            "payment_history": self.Payment_History
+            "payment_history": self.Payment_History,
+            "analysis": self.get_analysis()
         }
 
     #######################
@@ -185,6 +186,29 @@ class Loan:
             return self.Dec(self.get_principal_paid() / self.get_total_paid() * 100)
         elif c == 'i':
             return self.Dec(self.get_interest_paid() / self.get_total_paid() * 100)
+        
+    def get_percent_principal(self):
+        return Loan.Dec(self.get_principal_paid() / self.get_total_paid() * 100)
+        
+    def get_p_to_i_over_time(self):
+        history = self.Payment_History
+        payments = self.pay_no
+        # highest_bal = float(max(history["balance"]))
+        return [(history["principal"][i+1] / (history["principal"][i+1]
+                + history["interest"][i+1]) * 100)
+                if history["principal"][i+1] != 0
+                else 0 for i in range(payments)]
+    
+    def get_analysis(self):
+        return {
+            "duration": self.pay_no,
+            "num_payments": self.pay_no,
+            "principal_paid": self.get_principal_paid(),
+            "interest_paid": self.get_interest_paid(),
+            "total_paid": self.get_total_paid(),
+            'avg_pi': self.get_p_to_i(),
+            "percent_principal": self.get_percent_principal()
+        }
 
     ###########################
     #   PAYMENT METHODS
@@ -216,8 +240,9 @@ class Loan:
             int_payment = self.payment_amt
             principal_payment = 0
 
-        #   Install payment
+        #   Install payment and return ref to self
         self.install_payment(bal_fwd, principal_payment, int_payment)
+        return self
 
     #   Make m payments, checking for completion each iteration
     def pay_months(self, m: int):
@@ -225,19 +250,19 @@ class Loan:
             if self.is_complete():
                 break
             self.pay_month()
+        return self
 
     #   Make payments until repayment complete, return T or F based on completion
     def payoff(self):
-        #   Handle infinite loop (payments can't cover interest)
-        if self.payment_amt <= self.get_int_due():
-            return False
-
-        #   Otherwise, loop until paid off
-        while not self.is_complete():
-            self.pay_month()
-
-        print(f'payoff() call on "{self.title}" made {self.pay_no} calculations')
-        return True
+        if self.can_payoff():
+            while not self.is_complete():
+                self.pay_month()
+            print(f'payoff() call on "{self.title}" made {self.pay_no} calculations')
+        return self
+    
+    #   Handle infinite loop (payments can't cover interest)
+    def can_payoff(self):
+        return self.payment_amt > self.get_int_due()
 
 #########################################
 #   CHILD CLASS
@@ -251,22 +276,14 @@ class StandardLoan(Loan):
     ###############################################
 
     # Return a new StandardLoan using self's state as init data
-    def branch(self, t=None):
-        b = self.current_bal
-        i = self.int_rate
-        pa = self.payment_amt
-        t = self.title if t is None else f"{self.title} {t}"
-        m = self.term
-        return StandardLoan(b, i, pa, title=t, term=m)
+    def branch(self):
+        return StandardLoan(self.current_bal, self.int_rate, self.payment_amt, title=self.title, term=self.term)
 
     # Call payoff() on a branch of self
     # Return paid branch loan obj
     def solve(self):
         branch = self.branch()
-        if branch.payoff():
-            return branch
-        
-        print("Did not complete repayment")
+        return branch.payoff()
 
     ###############################################
     #   RECURSIVE DUPLICATIVE SOLVE METHODS

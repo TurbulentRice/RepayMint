@@ -9,7 +9,7 @@ from app.method_compare import MethodCompare
 #########################################
 
 class PriorityQueue:
-    def __init__(self, loans: list, budget, title=None):
+    def __init__(self, loans: [Loan], budget: float=None, title=None):
 
         # Primary attributes
         self.title = title
@@ -32,11 +32,10 @@ class PriorityQueue:
     # Budget
     @property
     def budget(self):
-        return self._budget
+        return self._budget if self._budget is not None else Loan.Dec(sum([loan.payment_amt for loan in self.Q]))
     @budget.setter
     def budget(self, b):
-        # TODO If not b, add up loan payment amounts
-        self._budget = Loan.Dec(b)
+        self._budget = Loan.Dec(b) if b is not None else b
 
     # Length of Q
     @property
@@ -68,7 +67,7 @@ class PriorityQueue:
         return sum([l.get_total_paid() for l in self.Q])
 
     def get_avg_p_to_i(self):
-        return sum([l.get_p_to_i() for l in self.Q])/self.size
+        return Loan.Dec(sum([l.get_p_to_i() for l in self.Q])/self.size)
 
     def get_percent_principal(self):
         return Loan.Dec(self.get_principal_paid() / self.get_total_paid() * 100)
@@ -98,8 +97,8 @@ class PriorityQueue:
             raise TypeError
 
     # Return a PriorityQueue of branch loans from instance
-    def branch_Queue(self, t=None):
-        return PriorityQueue([l.branch() for l in self.Q], self.budget, title=self.title if t is None else t)
+    def branch(self):
+        return PriorityQueue([l.branch() for l in self.Q], self.budget, title=self.title)
 
     # Order loans based on key (not neccessary for cascade or ice_slide)
     def prioritize(self, key='balance'):
@@ -135,7 +134,7 @@ class PriorityQueue:
 
         # Handle payments not covering minimum by raising error for now
         if b < 0:
-            print("Budget cannot cover payments.")
+            print("Budget cannot cover loan payments.")
             raise ValueError
         return b
 
@@ -225,46 +224,46 @@ class PriorityQueue:
         order_every = (key == "blizzard")
 
         # 1) Create tempQ(branch), completedQ(empty) structures
-        temp_Queue = self.branch_Queue(t=f"{self.title} ({key})")
-        completed_Queue = PriorityQueue([], self.budget, title=self.title+f'({key})')
+        temp_queue = self.branch()
+        completed_queue = PriorityQueue([], self.budget, title=self.title)
 
         # Initial ordering
         if order_once:
-            temp_Queue.prioritize(key)
+            temp_queue.prioritize(key)
 
         # 4) Execute method until all loans popped from temp->completed
-        while temp_Queue.size > 0:
+        while temp_queue.size > 0:
             # 3) Step through payments until at least one reaches 0
-            while all([not l.is_complete() for l in temp_Queue.Q]):
+            while all([not l.is_complete() for l in temp_queue.Q]):
 
                 if order_every:
-                    temp_Queue.prioritize(key)
+                    temp_queue.prioritize(key)
 
                 # Set minimums, remainder is budget leftover (raises error if<0)
-                remainder = temp_Queue.set_all_payments(minimum)
+                remainder = temp_queue.set_all_payments(minimum)
 
                 # Distribute remainder
-                temp_Queue.distribute(key, remainder)
+                temp_queue.distribute(key, remainder)
 
                 # Make one payment for each loan in temp
-                for loan in temp_Queue.Q:
+                for loan in temp_queue.Q:
                     loan.pay_month()
 
             # "Pop" paidoff loan(s) to completed queue
-            paid_off = [l for l in temp_Queue.Q if l.is_complete()]
+            paid_off = [l for l in temp_queue.Q if l.is_complete()]
             for l in paid_off:
-                completed_Queue.add_loan(l)
-                temp_Queue.Q.remove(l)
+                completed_queue.add_loan(l)
+                temp_queue.Q.remove(l)
 
-        # After every loan completes, (when temp Queue is empty), return completed Queue
-        return completed_Queue
+        # After every Loan completes, reorder and return completed Queue
+        return completed_queue.prioritize()
     
     # Solve-in-place every loan in the queue
     def payoff(self):
         # self.set_all_payments(minimum)
-        all_valid = False
+        all_valid = True
         for loan in self.Q:
-            if loan.payoff(): all_valid = True
+            if not loan.payoff().is_complete(): all_valid = False
         return all_valid
         
 
@@ -314,23 +313,3 @@ class PriorityQueue:
             for k, v in l.Payment_History.items():
                  print(k, [str(p) for p in v])
             self.line()
-
-    # Serialize histories to JSON, if complete      
-    # def save_results(self):
-    #     def dec_def(e):
-    #         if isinstance(e, Decimal):
-    #             return str(e)
-    #         raise TypeError
-
-    #     if not self.is_complete():
-    #         print("Loans are not paid off...")
-    #         return
-
-    #     import json
-    #     with open(f'{self.title}_Histories.txt', 'w') as f:
-    #         print("Saving...")
-    #         for l in self.Q:
-    #             json.dump({l.title: l.get_payment_info()}, f)
-    #             json.dump(l.Payment_History, f, default=dec_def, indent=4)
-
-    #     print("Saved.")
