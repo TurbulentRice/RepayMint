@@ -1,57 +1,49 @@
-import { useEffect, useRef, useState } from "preact/hooks";
-import Chart from 'chart.js/auto';
+import { useEffect, useMemo, useRef, useState } from "preact/hooks";
 import { getUserQueues } from "../../ajax";
-import AnalysisView from "../AnalysisView";
+import QueueAnalysis from "../QueueAnalysis";
 import LoanChart from "./LoanChart";
+import useToggle from "../../hooks/useToggle";
+import QueueChart from "./QueueChart";
+import LoanAnalysis from "../LoanAnalysis";
+import ChartTabs from "./ChartTabs";
 
-export default function LoanView({ loans, analysis }) {
-  if (!loans) return <div> Add some loans to get started!</div>;
+export default function LoanView({ loans, selectedLoanIndex, analysis }) {
+  if (!loans.length) return <div> Add some loans to get started!</div>;
+
+  const selectedLoan = loans[selectedLoanIndex];
   
   const [queues, setQueues] = useState({});
   const [method, setMethod] = useState('default');
 
+  const combinedQueues = useMemo(() => ({...queues, default: {analysis, loans}}), [queues, loans, analysis]);
+
   const chartRef = useRef(null);
   const canvasRef = useRef(null);
+
+  const { toggles, toggle } = useToggle({ loanView: false });
   
   useEffect(() => {
     (async () => {
       const userQueues = await getUserQueues();
-      console.log('FETCHED QUEUES:', userQueues)
       setQueues(userQueues);
     })();
   }, [loans]);
-  
-  useEffect(() => {
-    const userLoans = queues[method]?.loans || loans;
-    console.log('Making new chart for loans:', userLoans)
-    chartRef.current = new Chart(canvasRef.current, {
-      type: 'line',
-      options: {
-        responsive: true
-      }
-    });
-    userLoans.forEach((loan) => {
-      if (chartRef.current.data.labels.length < loan.paymentHistory.pay_no.length) {
-        chartRef.current.data.labels = loan.paymentHistory.pay_no;
-      }
-      chartRef.current.data.datasets.push({
-        label: loan.title,
-        data: loan.paymentHistory.balance,
-        borderWidth: 1
-      });
-    });
-    chartRef.current.update();
-    return () => chartRef.current.destroy();
-  }, [queues, method]);
 
   return (
     <>
 
+      {/* Tabs */}
+      <ChartTabs isLoanView={!!toggles.loanView} toggleLoanView={() => toggle('loanView')} />
+
       {/* Chart */}
-      <LoanChart canvasRef={canvasRef} />
+      {toggles.loanView
+        ? <LoanChart selectedLoan={selectedLoan} canvasRef={canvasRef} chartRef={chartRef} />
+        : <QueueChart queues={combinedQueues} method={method} canvasRef={canvasRef} chartRef={chartRef} />}
 
       {/* Analysis */}
-      <AnalysisView method={method} setMethod={setMethod} analysis={queues[method]?.analysis || analysis} />
+      {toggles.loanView
+        ? <LoanAnalysis loan={selectedLoan} />
+        : <QueueAnalysis method={method} setMethod={setMethod} analysis={combinedQueues[method].analysis} selectedLoan={selectedLoan} />}
 
     </>
   );

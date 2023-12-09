@@ -16,13 +16,17 @@ export default function Dashboard() {
   const [errors, setErrors] = useState({});
   const updateError = (errorName, errorMessage) => setErrors((currentErrors) => ({...currentErrors, [errorName]: errorMessage}));
   
-  const addLoan = (newLoan) => setLoans([...loans, newLoan]);
+  // const addLoan = (newLoan) => setLoanData({
+  //   loans: [...loans, newLoan],
+  //   analysis:
+  //   , newLoan
+  // });
   const removeLoan = (loanIndex) => {
     // Decrement selectedLoanIndex if that's the one being removed
     if (selectedLoanIndex && (loanIndex <= selectedLoanIndex)) {
       setSelectedLoanIndex(selectedLoanIndex - 1);
     }
-    setLoans(loans.filter((loan, index) => index !== loanIndex));
+    setLoanData(loans.filter((loan, index) => index !== loanIndex));
   };
   const selectLoan = (loanIndex) => setSelectedLoanIndex(loanIndex);
 
@@ -36,8 +40,8 @@ export default function Dashboard() {
     e.preventDefault();
     updateError('form', false);
     try {
-      const newLoan = await addUserLoan(values);
-      addLoan(newLoan);
+      const updatedLoans = await addUserLoan(values);
+      setLoanData(updatedLoans);
     } catch(e) {
       console.error(e);
       updateError('form', 'Payment amount must be enough to cover monthly interest.');
@@ -56,6 +60,8 @@ export default function Dashboard() {
     })()
   }, []);
 
+  console.log("LOAN DATA:", loanData);
+
   return (
     <>
       <div class="row">
@@ -73,7 +79,7 @@ export default function Dashboard() {
           <a href="/logout" class="mt-4">Logout</a>
         </div>
         <div class="col">
-          <LoanView loans={loans} analysis={analysis} />
+          <LoanView loans={loans} selectedLoanIndex={selectedLoanIndex} analysis={analysis} />
         </div>
       </div>
     </>
