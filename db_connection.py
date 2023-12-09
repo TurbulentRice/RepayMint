@@ -29,18 +29,12 @@ class LoanDBConnector:
 
     #   Put loan object info into db
     def add_loan_to_db(self, loan_obj):
-        insert = "INSERT INTO loans (title, start_bal, int_rate, payment_amount) VALUES (%s, %s, %s, %s)"
-        values = (loan_obj.title, loan_obj.start_balance, loan_obj.int_rate, loan_obj.payment_amt)
+        insert = "INSERT INTO loans (title, start_bal, int_rate, payment_amount, term) VALUES (%s, %s, %s, %s, %s)"
+        values = (loan_obj.title, loan_obj.start_balance, loan_obj.int_rate, loan_obj.payment_amt, loan_obj.term)
 
         with Cursor(self.connection) as c:
             c.execute(insert, values)
             self.connection.commit()
-
-    #   Compare loan object payment history with payment history in db associated with loan obj
-    #   Update payment history in db
-    def add_payment_to_history(self, loan_obj):
-        insert = "INSERT INTO payment_history (title, start_bal, int_rate) VALUES (%s, %s, %s)"
-        pass
 
     #   Select loans with NAME in them, return name and IDs for display in infobox
     def load_loan(self):
