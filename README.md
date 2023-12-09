@@ -11,7 +11,7 @@ This helped dispell some of the mystery, but to be useful, these tools also had 
 - What is the fastest way to pay off all my outstanding loans?
 - What is the cheapest way (least interest paid)?
 
-![RepayMint App](./examples/repaymint_ui.png)
+![RepayMint App](./examples/default.png)
 
 ## Requirements
 - Pyton 3.9+
@@ -61,35 +61,13 @@ Using unittest standard library.
 python -m unittest discover tests
 ```
 
-## Matplotlib / Tkinter GUI
+# Loan Repayment Algorithms Overview
 
-[main.py](main.py) is leftover from before the move to Preact and everything was serverless.
+[main.py](main.py) is leftover from before there was a front-end. Now it is handy as a way to test the data structures and algorithms.
 
 ```py
 python main.py
 ```
-
-# Loan Repayment Algorithms Overview
-
-Given the following loans and monthly budget:
-
-Budget:               $1,713.39/mo
-
-Loan 1:
-  - Start balance:    $16,228.66
-  - Interest rate:    3.52%
-
-Loan 2:
-  - Start balance:    $14,346.09
-  - Interest rate:    1.77%
-
-Loan 3:
-  - Start balance:    $9,336.35
-  - Interest rate:    2.4%
-
-Loan 4:
-  - Start balance:    $5,117.88
-  - Interest rate:    1.22%
 
 ## Ordered Algorithms
 Ordered algorithms are focused on targeting a single loan each pay cycle, paying only minimums on all except the target loan, paying one off at a time.
@@ -100,30 +78,21 @@ Orders loans by interest rate and balance. Payments target the loan with the hig
 This algorithm consistently results in the lowest interest paid
 over the course of large loans.
 
-<img src="examples/avalanche/My_Loans(avalanche_branch)_1.png" width="450" alt="Avalanche Example 1">
-<img src="examples/avalanche/My_Loans(avalanche_branch)_2.png" width="450" alt="Avalanche Example 2">
-<img src="examples/avalanche/My_Loans(avalanche_branch)_3.png" width="450" alt="Avalanche Example 3">
-<img src="examples/avalanche/My_Loans(avalanche_branch)_4.png" width="450" alt="Avalanche Example 4">
+![Avalanche example](./examples/avalanche.png)
 
 ### Blizzard
 Orders loans by monthly interest cost. Payments target the loan with the largest monthly interest cost until all loans are paid off. The targeted loan can change with every payment when multiple loans are equally "expensive." This accounts for the tooth-like pattern in loan payment histories.
 
 This algorithm is similar to Avalanche, providing some benefits for small loans and/or large budgets.
 
-<img src="examples/blizzard/My_Loans(blizzard_branch)_1.png" width="450" alt="Blizzard Example 1">
-<img src="examples/blizzard/My_Loans(blizzard_branch)_2.png" width="450" alt="Blizzard Example 2">
-<img src="examples/blizzard/My_Loans(blizzard_branch)_3.png" width="450" alt="Blizzard Example 3">
-<img src="examples/blizzard/My_Loans(blizzard_branch)_4.png" width="450" alt="Blizzard Example 4">
+![Blizzard example](./examples/blizzard.png)
 
 ### Snowball
 Orders loans by balance. Payments target the loan with the lowest starting balance until all loans are paid off.
 
 This algorithm is largely motivaitonal, quickly reducing the number of outstanding loans, but is not necessarily cost-effective.
 
-<img src="examples/snowball/My_Loans(snowball_branch)_1.png" width="450" alt="Snowball Example 1">
-<img src="examples/snowball/My_Loans(snowball_branch)_2.png" width="450" alt="Snowball Example 2">
-<img src="examples/snowball/My_Loans(snowball_branch)_3.png" width="450" alt="Snowball Example 3">
-<img src="examples/snowball/My_Loans(snowball_branch)_4.png" width="450" alt="Snowball Example 4">
+![Snowball example](./examples/snowball.png)
 
 ## Unordered Algorithms
 Unordered algorithms distribute payments strategically, according to need, and result in steady payment histories. These methods can reduce short-terms monthly costs of loans.
@@ -131,15 +100,9 @@ Unordered algorithms distribute payments strategically, according to need, and r
 ### Cascade
 Distributes a percentage of a monthly budget to each loan each pay cycle, proportional to the loan's percentage contribution to the total (sum) interest rate of all loans.
 
-<img src="examples/cascade/My_Loans(cascade_branch)_1.png" width="450" alt="Cascade Example 1">
-<img src="examples/cascade/My_Loans(cascade_branch)_2.png" width="450" alt="Cascade Example 2">
-<img src="examples/cascade/My_Loans(cascade_branch)_3.png" width="450" alt="Cascade Example 3">
-<img src="examples/cascade/My_Loans(cascade_branch)_4.png" width="450" alt="Cascade Example 4">
+![Cascade example](./examples/cascade.png)
 
 ### Ice Slide
 Distributes a percentage of a monthly budget to each loan each pay cycle, proportional to the loan's percentage contribution to the total (sum) monthly cost (minimum payments) of all loans.
 
-<img src="examples/ice_slide/My_Loans(ice_slide_branch)_1.png" width="450" alt="Ice Slide Example 1">
-<img src="examples/ice_slide/My_Loans(ice_slide_branch)_2.png" width="450" alt="Ice Slide Example 2">
-<img src="examples/ice_slide/My_Loans(ice_slide_branch)_3.png" width="450" alt="Ice Slide Example 3">
-<img src="examples/ice_slide/My_Loans(ice_slide_branch)_4.png" width="450" alt="Ice Slide Example 4">
+![Ice Slide example](./examples/ice_slide.png)
