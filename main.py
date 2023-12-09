@@ -1,9 +1,3 @@
-# Program that models individual loan ammortization schedules, 
-# Compares repayment strategy timelines across multiple Loans,
-# Finds best repayment payment strategy based on a goal
-
-from app.view_controller import MainWindow
-from app.loan_plot import LoanPlot
 from app.loan import Loan, StandardLoan
 from app.priority_queue import PriorityQueue
 from app.method_compare import MethodCompare
@@ -51,8 +45,6 @@ if __name__ == "__main__":
 	# single_loan_queue = PriorityQueue([
 	# 	avalanche.Q[0], cascade.Q[0], ice_slide.Q[0], blizzard.Q[0], snowball.Q[0]
 	# ], my_budget)
-	# single_loan_view = LoanPlot(single_loan_queue)
-	# single_loan_view.plot_analysis()
 
 	# Get a MethodCompare instance from the paid-off queues, sorted by interest
 	# Compare how each repayment method payed off each loan
@@ -62,18 +54,3 @@ if __name__ == "__main__":
 		avalanche, cascade, ice_slide, blizzard, snowball
 	])
 	my_MethodCompare.order_by('interest')
-	all_loan_view = LoanPlot(my_MethodCompare)
-	all_loan_view.plot_analysis()
-
-	# Show how just the "best" repayment method payed off all the loans
-	# best_queue_view = LoanPlot(my_MethodCompare.top())
-	# best_queue_view.plot_history()
-	# best_queue_view.plot_analysis()
-
-	# GUI/database implemenation
-	def launch_GUI():
-		#   Amortization Calculator Main Loop
-		LoanApp = MainWindow()
-		LoanApp.start(StandardLoan(7024.12, 3.75, term=120))
-
-	# launch_GUI()

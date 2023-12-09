@@ -40,7 +40,6 @@ export default function QueueAnalysis({ method, setMethod, analysis, selectedLoa
             <div><b>Selected loan:</b></div>
             <div><b>Starting balance:</b></div>
             <div><b>Interest rate:</b></div>
-            <div><b>Payment amount:</b></div>
             <div><b>Duration:</b></div>
             <div><b>Number of payments:</b></div>
             <div><b>Principal paid:</b></div>
@@ -52,7 +51,6 @@ export default function QueueAnalysis({ method, setMethod, analysis, selectedLoa
             <div>{selectedLoan.title}</div>
             <div>{selectedLoan.startBalance}</div>
             <div>{selectedLoan.interestRate} %</div>
-            <div>${selectedLoan.paymentAmt} / month</div>
             <div>{selectedLoan.analysis.duration} months</div>
             <div>{selectedLoan.analysis.numPayments}</div>
             <div>{selectedLoan.analysis.principalPaid}</div>

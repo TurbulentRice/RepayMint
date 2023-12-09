@@ -11,11 +11,12 @@ export default function LoanView({ loans, selectedLoanIndex, analysis }) {
   if (!loans.length) return <div> Add some loans to get started!</div>;
 
   const selectedLoan = loans[selectedLoanIndex];
-  
+
   const [queues, setQueues] = useState({});
   const [method, setMethod] = useState('default');
 
   const combinedQueues = useMemo(() => ({...queues, default: {analysis, loans}}), [queues, loans, analysis]);
+  console.log('ALL QUEUES:', combinedQueues);
 
   const chartRef = useRef(null);
   const canvasRef = useRef(null);
@@ -43,7 +44,7 @@ export default function LoanView({ loans, selectedLoanIndex, analysis }) {
       {/* Analysis */}
       {toggles.loanView
         ? <LoanAnalysis loan={selectedLoan} />
-        : <QueueAnalysis method={method} setMethod={setMethod} analysis={combinedQueues[method].analysis} selectedLoan={selectedLoan} />}
+        : <QueueAnalysis method={method} setMethod={setMethod} analysis={combinedQueues[method].analysis} selectedLoan={combinedQueues[method].loans[selectedLoanIndex]} />}
 
     </>
   );

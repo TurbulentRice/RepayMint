@@ -198,6 +198,14 @@ class Loan:
                 + history["interest"][i+1]) * 100)
                 if history["principal"][i+1] != 0
                 else 0 for i in range(payments)]
+    def get_principal_history(self):
+        return [sum(self.Payment_History["principal"][0:i+1]) for i in range(self.pay_no+1)]
+    def get_interest_history(self):
+        return [sum(self.Payment_History["interest"][0:i+1]) for i in range(self.pay_no+1)]
+    def get_total_payment_history(self):
+        principal_history = self.get_principal_history()
+        interest_history = self.get_interest_history()
+        return [principal_history[i] + interest_history[i] for i in range(self.pay_no+1)]
     
     def get_analysis(self):
         return {
