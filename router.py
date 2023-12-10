@@ -1,8 +1,7 @@
 import os
 from flask import Flask, send_from_directory, request, session, redirect, render_template
 from dotenv import load_dotenv
-from app.loan import StandardLoan
-from app.priority_queue import PriorityQueue
+from financetools import Loan, LoanQueue
 
 load_dotenv()
 
@@ -21,8 +20,8 @@ db = {
 
 # TODO Lookup loans and return completed queue object
 def get_user_queue_from_db():
-  user_loans = [StandardLoan(loan[0], loan[1], pa=loan[2], title=loan[3], term=loan[4]) for loan in db['userLoans']]
-  user_queue = PriorityQueue(user_loans, 1292.00, 'User Queue')
+  user_loans = [Loan(loan[0], loan[1], pa=loan[2], title=loan[3], term=loan[4]) for loan in db['userLoans']]
+  user_queue = LoanQueue(user_loans, 1292.00, 'User Queue')
   # user_queue.payoff()
   return user_queue
 
@@ -66,7 +65,7 @@ def new_loan():
     payment_amt = float(data['paymentAmt'])
     term = int(data['term'])
     title = data['title']
-    loan = StandardLoan(start_balance, interest_rate, pa=payment_amt, title=title, term=term)
+    loan = Loan(start_balance, interest_rate, pa=payment_amt, title=title, term=term)
     db['userLoans'].append([loan.start_balance, loan.int_rate, loan.payment_amt, loan.title, loan.term])
     if not loan.can_payoff(): return 'Payments cannot cover interest.', 400
 

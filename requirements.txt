@@ -4,6 +4,7 @@ click==8.1.7
 contourpy==1.2.0
 cycler==0.12.1
 exceptiongroup==1.1.3
+git+https://github.com/TurbulentRice/financetools.git
 Flask==3.0.0
 fonttools==4.44.3
 importlib-metadata==6.8.0

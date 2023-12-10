@@ -1,15 +1,17 @@
 # RepayMint
 
-RepayMint is a lightweight web application for modeling loan repayment timelines and comparing repayment strategies. It is based on Python data structures I wrote while figuring out the best way to repay my student loans, to help conceptualize the many "What if's" that arose:
+RepayMint is a lightweight web application for comparing loan repayment strategies. It is based around a Python package, [financetools](https://github.com/TurbulentRice/financetools), that I started writing while paying off my student loans, to help conceptualize the many "What if's" that arose:
 
 - What if I increase/decrease my monthly payment?
 - What if I target payments to a single loan at a time?
 - What if I allocate payments to loans based on certain factors, like their interest rate or minimum payment?
 
-This helped dispell some of the mystery, but to be useful, these tools also had to answer the big questions:
+This helped dispell some of the mystery, but to be useful, these tools also had to answer big questions, like:
 
 - What is the fastest way to pay off all my outstanding loans?
 - What is the cheapest way (least interest paid)?
+
+You can install [financetools](https://github.com/TurbulentRice/financetools) via `pip install git+https://github.com/TurbulentRice/financetools.git`
 
 ![RepayMint App](./examples/default.png)
 
@@ -60,49 +62,3 @@ Using unittest standard library.
 ```py
 python -m unittest discover tests
 ```
-
-# Loan Repayment Algorithms Overview
-
-[main.py](main.py) is leftover from before there was a front-end. Now it is handy as a way to test the data structures and algorithms.
-
-```py
-python main.py
-```
-
-## Ordered Algorithms
-Ordered algorithms are focused on targeting a single loan each pay cycle, paying only minimums on all except the target loan, paying one off at a time.
-
-### Avalanche
-Orders loans by interest rate and balance. Payments target the loan with the highest interest rate and balance until all loans are paid off.
-
-This algorithm consistently results in the lowest interest paid
-over the course of large loans.
-
-![Avalanche example](./examples/avalanche.png)
-
-### Blizzard
-Orders loans by monthly interest cost. Payments target the loan with the largest monthly interest cost until all loans are paid off. The targeted loan can change with every payment when multiple loans are equally "expensive." This accounts for the tooth-like pattern in loan payment histories.
-
-This algorithm is similar to Avalanche, providing some benefits for small loans and/or large budgets.
-
-![Blizzard example](./examples/blizzard.png)
-
-### Snowball
-Orders loans by balance. Payments target the loan with the lowest starting balance until all loans are paid off.
-
-This algorithm is largely motivaitonal, quickly reducing the number of outstanding loans, but is not necessarily cost-effective.
-
-![Snowball example](./examples/snowball.png)
-
-## Unordered Algorithms
-Unordered algorithms distribute payments strategically, according to need, and result in steady payment histories. These methods can reduce short-terms monthly costs of loans.
-
-### Cascade
-Distributes a percentage of a monthly budget to each loan each pay cycle, proportional to the loan's percentage contribution to the total (sum) interest rate of all loans.
-
-![Cascade example](./examples/cascade.png)
-
-### Ice Slide
-Distributes a percentage of a monthly budget to each loan each pay cycle, proportional to the loan's percentage contribution to the total (sum) monthly cost (minimum payments) of all loans.
-
-![Ice Slide example](./examples/ice_slide.png)
