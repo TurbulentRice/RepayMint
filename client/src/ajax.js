@@ -1,4 +1,31 @@
-import { formatDecimal } from "./util";
+import { formatDecimal } from "./util/number";
+import { getToken } from "./util/token";
+
+export async function login(formData) {
+  const res = await fetch('/api/login', {
+      method: 'POST',
+      body: formData,
+  });
+  if (res.ok) {
+    const data = await res.json();
+    localStorage.setItem('token', data.token);
+  } else {
+    throw new Error('Login failed!');
+  }
+};
+
+export async function signup(formData) {
+  const res = await fetch('/api/signup', {
+    method: 'POST',
+    body: formData,
+  });
+  if (res.ok) {
+    const data = await res.json();
+    localStorage.setItem('token', data.token);
+  } else {
+    throw new Error('Signup failed!');
+  }
+}
 
 /**
  * Interface Loan Analysis
@@ -31,11 +58,18 @@ const unpackLoanData = (loanData) => ({
 });
 
 export async function addUserLoan(body) {
+  const token = getToken();
   const res = await fetch('/api/loan/new', {
     method: 'POST',
-    headers: {'Content-Type': 'application/json'},
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
     body: JSON.stringify(body)
   });
+  if (!res.ok) {
+    throw new Error('Something went wrong! ' + res.statusText)
+  }
   const data = await res.json();
   return {
     loans: data.loans.map((loanData) => unpackLoanData(loanData)),
@@ -44,7 +78,15 @@ export async function addUserLoan(body) {
 }
 
 export async function getUserLoans() {
-  const res = await fetch('/api/loans');
+  const token = getToken();
+  const res = await fetch('/api/loans', {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  });
+  if (!res.ok) {
+    throw new Error('Something went wrong! ' + res.statusText)
+  }
   const data = await res.json();
   return {
     loans: data.loans.map((loanData) => unpackLoanData(loanData)),
@@ -53,7 +95,12 @@ export async function getUserLoans() {
 }
 
 export async function getUserQueues() {
-  const res = await fetch('/api/queues');
+  const token = getToken();
+  const res = await fetch('/api/queues', {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  });
   const data = await res.json();
   for (const queue in data) {
     data[queue].loans = data[queue].loans.map((loanData) => unpackLoanData(loanData));

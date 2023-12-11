@@ -4,4 +4,6 @@ const USDollar = new Intl.NumberFormat('en-US', {
   minimumFractionDigits: 2
 });
 
-export const formatDecimal = (decimalString) => USDollar.format(decimalString);
+const formatDecimal = (decimalString) => USDollar.format(decimalString);
+
+export { formatDecimal };
