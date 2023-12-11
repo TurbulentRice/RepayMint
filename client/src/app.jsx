@@ -1,11 +1,14 @@
 import Router from 'preact-router';
-import Dashboard from './components/Dashboard';
 import Login from './components/Login';
+import ProtectedRoute from './components/ProtectedRoute';
+
+// Lazy loading for code splitting
+const Dashboard = () => import('./components/Dashboard');
 
 export function App() {
   return (
     <Router>
-      <Dashboard path="/" />
+      <ProtectedRoute path="/" lazy={true} component={Dashboard} />
       <Login path="/login" />
     </Router>
   );
