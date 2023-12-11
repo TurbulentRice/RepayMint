@@ -20,7 +20,8 @@ export default function LoanForm({ submit, values, setValue }) {
             isRequired={true}
             onInput={setValue}
             type="number"
-            inputMode="decimal" />
+            inputMode="decimal"
+            step=".01" />
         </div>
         {/* Interest rate */}
         <div class="col-md-2">
@@ -31,7 +32,8 @@ export default function LoanForm({ submit, values, setValue }) {
             isRequired={true}
             onInput={setValue}
             type="number"
-            inputMode="decimal" />
+            inputMode="decimal"
+            step=".01" />
         </div>
         {/* Monthly payment */}
         <div class="col-md-2">
@@ -42,7 +44,8 @@ export default function LoanForm({ submit, values, setValue }) {
             isRequired={true}
             onInput={setValue}
             type="number"
-            inputMode="decimal" />
+            inputMode="decimal"
+            step=".01" />
         </div>
         {/* Term */}
         <div class="col-md-2">
@@ -53,7 +56,7 @@ export default function LoanForm({ submit, values, setValue }) {
             isRequired={true}
             onInput={setValue}
             type="number"
-            inputMode="numeric"/>
+            inputMode="numeric" />
         </div>
 
         <div class="col-md-10">
@@ -66,7 +69,7 @@ export default function LoanForm({ submit, values, setValue }) {
   );
 }
 
-function Input({ label, name, value, isRequired, onInput, type, inputMode }) {
+function Input({ label, name, value, isRequired, onInput, type, inputMode, step }) {
   return (
     <div class="form-group">
       <label for={name} className="col-form-label-sm">{label}</label>
@@ -75,6 +78,7 @@ function Input({ label, name, value, isRequired, onInput, type, inputMode }) {
         name={name}
         value={value || ''}
         type={type || 'text'}
+        step={step}
         inputMode={inputMode || false}
         className="form-control form-control-sm"
         required={isRequired}
