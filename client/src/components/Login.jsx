@@ -34,7 +34,7 @@ export default function Login() {
         </div>
         <div class="form-group">
           <label for="password">Password: </label>
-          <input type="text" name="password" class="form-control" required />
+          <input type="password" name="password" class="form-control" required />
         </div>
         <p><button class="btn btn-primary form-control" type="submit">{toggles.isSignup ? "Sign up" : "Login"}</button></p>
       </form>
