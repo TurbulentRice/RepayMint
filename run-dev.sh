@@ -1,2 +1,2 @@
 source venv/bin/activate &&
-flask --app router run --debug
+flask --app app run --debug
