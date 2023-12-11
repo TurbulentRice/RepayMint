@@ -1,28 +1,29 @@
 # RepayMint
 
-RepayMint is a lightweight web application for comparing loan repayment strategies. It is based around a Python package, [financetools](https://github.com/TurbulentRice/financetools), that I started writing while paying off my student loans, to help conceptualize the many "What if's" that arose:
+RepayMint is a full-stack web application for comparing loan repayment strategies. It's based around [financetools](https://github.com/TurbulentRice/financetools), a Python package I wrote while paying off my student loans, to help conceptualize the many "What if's" that arose:
 
 - What if I increase/decrease my monthly payment?
 - What if I target payments to a single loan at a time?
-- What if I allocate payments to loans based on certain factors, like their interest rate or minimum payment?
+- What if I allocate payments based on certain factors, like interest rate?
 
-This helped dispell some of the mystery, but to be useful, these tools also had to answer big questions, like:
+The problem this app aims to solve is:
 
-- What is the fastest way to pay off all my outstanding loans?
-- What is the cheapest way (least interest paid)?
+- What is the fastest, cheapest way to pay off all my debt?
 
-You can install [financetools](https://github.com/TurbulentRice/financetools) via `pip install git+https://github.com/TurbulentRice/financetools.git`
+__NOTE__: You can install [financetools](https://github.com/TurbulentRice/financetools) via `pip install git+https://github.com/TurbulentRice/financetools.git`
 
-![RepayMint App](./examples/default.png)
+![RepayMint App](./docs/images/default.png)
 
 ## Requirements
-- Pyton 3.9+
-- [Node Version Manager](https://github.com/nvm-sh/nvm)
+- Python 3.9+
+- MySQL 8.0+
+- Node.js (see [.nvmrc](.nvmrc))
+- [Optional] [Node Version Manager](https://github.com/nvm-sh/nvm)
 
 ## Stack
 - [Flask](https://flask.palletsprojects.com/en/3.0.x/)
-- [Vite](https://vitejs.dev/)
-- [Preact](https://preactjs.com/)
+- [Preact](https://preactjs.com/) + [Vite](https://vitejs.dev/)
+- [MySQL](https://dev.mysql.com/downloads/mysql/)
 
 ## Getting Started
 
@@ -40,12 +41,11 @@ pip install -r requirements.txt
 flask --app app run --debug
 ```
 
-Next, set up the front-end:
+In a new terminal, set up the front-end:
 ```sh
 cd client/
-# Install the Node version from .nvmrc if missing
+# Install or use the Node version from .nvmrc if using nvm
 nvm install
-# Or, if correct Node version is already installed
 nvm use
 # Install dependencies
 npm install
@@ -53,12 +53,4 @@ npm install
 npm run build
 # Run the dev server (proxies API requests to Flask server)
 npm run dev
-```
-
-## Testing
-
-Using unittest standard library.
-
-```py
-python -m unittest discover tests
 ```
