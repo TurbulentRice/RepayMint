@@ -3,6 +3,7 @@ import LoanView from './Loan/LoanView';
 import LoanIndex from './Loan/LoanIndex';
 import LoanForm from './Loan/LoanForm';
 import { addUserLoan, getUserLoans } from '../ajax';
+import { clearToken } from '../util/token';
 import logo from '../img/repaymint-logo-400.png'
 
 export default function Dashboard() {
@@ -16,37 +17,38 @@ export default function Dashboard() {
   const [errors, setErrors] = useState({});
   const updateError = (errorName, errorMessage) => setErrors((currentErrors) => ({...currentErrors, [errorName]: errorMessage}));
   
-  // const addLoan = (newLoan) => setLoanData({
-  //   loans: [...loans, newLoan],
-  //   analysis:
-  //   , newLoan
-  // });
-  const removeLoan = (loanIndex) => {
-    // Decrement selectedLoanIndex if that's the one being removed
-    if (selectedLoanIndex && (loanIndex <= selectedLoanIndex)) {
-      setSelectedLoanIndex(selectedLoanIndex - 1);
-    }
-    setLoanData(loans.filter((loan, index) => index !== loanIndex));
-  };
-  const selectLoan = (loanIndex) => setSelectedLoanIndex(loanIndex);
-
   const setValue = (e) => {
     const key = e.target.name || e.target.id;
     const value = e.target.value;
     setValues({...values, [key]: value});
   };
-  
-  const submit = async (e) => {
+
+  const addLoan = async (e) => {
     e.preventDefault();
     updateError('form', false);
     try {
       const updatedLoans = await addUserLoan(values);
       setLoanData(updatedLoans);
+      setValues({});
     } catch(e) {
-      console.error(e);
-      updateError('form', 'Payment amount must be enough to cover monthly interest.');
+      updateError('form', e.message);
     }
   };
+  const removeLoan = (loanIndex) => {
+    // Decrement selectedLoanIndex if that's the one being removed
+    if (selectedLoanIndex && (loanIndex <= selectedLoanIndex)) {
+      setSelectedLoanIndex(selectedLoanIndex - 1);
+    }
+    setLoanData({
+      loans: loans.filter((loan, index) => index !== loanIndex),
+      analysis
+    });
+  };
+
+  const logout = () => {
+    clearToken();
+    window.location.href = "/logout";
+  }
 
   useEffect(() => {
     (async () => {
@@ -54,13 +56,10 @@ export default function Dashboard() {
         const fetchedLoans = await getUserLoans();
         setLoanData(fetchedLoans);
       } catch(e) {
-        console.error(e);
-        updateError('loanIndex', 'Could not retreive user loans.');
+        updateError('loanIndex', e.message);
       }
     })()
   }, []);
-
-  console.log("LOAN DATA:", loanData);
 
   return (
     <>
@@ -69,17 +68,31 @@ export default function Dashboard() {
           <img src={logo} width={100} alt="RepayMint Logo"/>
         </div>
         <div class="col border border-top-0 rounded text-center">
-          <LoanForm submit={submit} setValue={setValue} />
+
+          {/* Add loan */}
+          <LoanForm submit={addLoan} values={values} setValue={setValue} />
+
+          {/* Form error */}
           {errors.form && <div class="alert alert-danger mt-2">{errors.form}</div>}
         </div>
       </div>
       <div class="row">
         <div class="col-md-3 col-sm">
-          <LoanIndex loans={loans} selectedLoanIndex={selectedLoanIndex} selectLoan={selectLoan} removeLoan={removeLoan}/>
-          <a href="/logout" class="mt-4">Logout</a>
+
+          {/* Loan list */}
+          <LoanIndex loans={loans} selectedLoanIndex={selectedLoanIndex} selectLoan={setSelectedLoanIndex} removeLoan={removeLoan}/>
+
+          {/* Loan list error */}
+          {errors.loanIndex && <div class="alert alert-warning mt-4" role="alert">{errors.loanIndex}</div>}
+
+          {/* Logout */}
+          <button class="btn btn-link mt-4" onClick={logout}>Logout</button>
         </div>
         <div class="col">
+
+          {/* Loan view */}
           <LoanView loans={loans} selectedLoanIndex={selectedLoanIndex} analysis={analysis} />
+          
         </div>
       </div>
     </>
