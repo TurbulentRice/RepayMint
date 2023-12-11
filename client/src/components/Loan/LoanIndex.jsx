@@ -15,9 +15,8 @@ export default function LoanIndex({ loans, selectedLoanIndex, selectLoan, remove
         <LoanIndexItem
           loan={loan}
           isSelected={index === selectedLoanIndex}
-          selectLoan={selectLoan}
-          removeLoan={removeLoan}
-          index={index} />
+          selectLoan={() => selectLoan(index)}
+          removeLoan={() => removeLoan(index)} />
       ))}
     </ul>
   );

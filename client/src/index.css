@@ -7,11 +7,14 @@ Gray:         #ADBFB8
 
 html {
   font-size: 14px;
+  height: -webkit-fill-available;
 }
 
 body {
   margin: 0;
+  padding: 0;
   min-height: 100vh;
+  min-height: -webkit-fill-available;
 }
 
 #app {
@@ -42,7 +45,6 @@ body {
 }
 
 .loan-index-item:hover {
-  cursor: pointer;
   background-color: #f8f9fa;
 }
 

@@ -1,5 +1,4 @@
-export default function LoanForm({ submit, setValue }) {
-  // Probably don't even have to set these in state, since we can extract values from form submit
+export default function LoanForm({ submit, values, setValue }) {
   return (
     <form method="POST" onSubmit={submit} class="mb-2">
       <div class="form-row align-items-center">
@@ -8,16 +7,18 @@ export default function LoanForm({ submit, setValue }) {
           <Input
             label="Title"
             name="title"
+            value={values.title}
             isRequired={true}
-            onChange={setValue} />
+            onInput={setValue} />
         </div>
         {/* Start balance */}
         <div class="col-md-2">
           <Input
             label="Start balance"
             name="startBalance"
+            value={values.startBalance}
             isRequired={true}
-            onChange={setValue}
+            onInput={setValue}
             type="number"
             inputMode="decimal" />
         </div>
@@ -26,8 +27,9 @@ export default function LoanForm({ submit, setValue }) {
           <Input
             label="Interest rate"
             name="interestRate"
+            value={values.interestRate}
             isRequired={true}
-            onChange={setValue}
+            onInput={setValue}
             type="number"
             inputMode="decimal" />
         </div>
@@ -36,8 +38,9 @@ export default function LoanForm({ submit, setValue }) {
           <Input
             label="Payment"
             name="paymentAmt"
+            value={values.paymentAmt}
             isRequired={true}
-            onChange={setValue}
+            onInput={setValue}
             type="number"
             inputMode="decimal" />
         </div>
@@ -46,9 +49,11 @@ export default function LoanForm({ submit, setValue }) {
           <Input
             label="Term (mo)"
             name="term"
+            value={values.term}
             isRequired={true}
-            onChange={setValue}
-            type="number" />
+            onInput={setValue}
+            type="number"
+            inputMode="numeric"/>
         </div>
 
         <div class="col-md-10">
@@ -61,18 +66,19 @@ export default function LoanForm({ submit, setValue }) {
   );
 }
 
-function Input({ label, name, isRequired, onChange, type="text", inputMode=false }) {
+function Input({ label, name, value, isRequired, onInput, type, inputMode }) {
   return (
     <div class="form-group">
       <label for={name} className="col-form-label-sm">{label}</label>
       <input
         id={name}
         name={name}
-        // type={type}
-        inputMode={inputMode}
+        value={value || ''}
+        type={type || 'text'}
+        inputMode={inputMode || false}
         className="form-control form-control-sm"
         required={isRequired}
-        onChange={onChange} />
+        onInput={onInput} />
     </div>
   );
 }

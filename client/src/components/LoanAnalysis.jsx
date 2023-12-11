@@ -1,6 +1,6 @@
 export default function LoanAnalysis({ loan }) {
   return (
-    <div class="row border rounded p-2">
+    <div class="row border rounded p-2 mr-2">
       <div class="col-6">
       <div class="row">
         <div class="col">

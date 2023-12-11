@@ -1,6 +1,6 @@
 export default function QueueAnalysis({ method, setMethod, analysis, selectedLoan }) {
   return (
-    <div class="row border rounded p-2">
+    <div class="row border rounded p-2 mr-2">
       <div class="col-6">
         <div class="row">
           <select

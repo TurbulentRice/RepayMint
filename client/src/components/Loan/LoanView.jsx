@@ -16,7 +16,6 @@ export default function LoanView({ loans, selectedLoanIndex, analysis }) {
   const [method, setMethod] = useState('default');
 
   const combinedQueues = useMemo(() => ({...queues, default: {analysis, loans}}), [queues, loans, analysis]);
-  console.log('ALL QUEUES:', combinedQueues);
 
   const chartRef = useRef(null);
   const canvasRef = useRef(null);
@@ -28,7 +27,8 @@ export default function LoanView({ loans, selectedLoanIndex, analysis }) {
       const userQueues = await getUserQueues();
       setQueues(userQueues);
     })();
-  }, [loans]);
+    // Depending on analysis because loans could change without a need to refetch queues
+  }, [analysis]);
 
   return (
     <>
